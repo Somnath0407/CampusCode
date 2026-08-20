@@ -6,6 +6,7 @@ import { Play, Send, CheckCircle2, XCircle } from "lucide-react";
 import axiosClient from "../api/axiosClient";
 import Navbar from "../components/Navbar";
 import DifficultyBadge from "../components/DifficultyBadge";
+import { useTheme } from "../context/ThemeContext";
 
 const LANGUAGE_META = {
     "c++": { label: "C++", monaco: "cpp" },
@@ -16,6 +17,7 @@ const LANGUAGE_META = {
 
 const ProblemSolve = () => {
     const { id } = useParams();
+    const { isDark } = useTheme();
     const [problem, setProblem] = useState(null);
     const [loading, setLoading] = useState(true);
     const [language, setLanguage] = useState("javascript");
@@ -219,7 +221,7 @@ const ProblemSolve = () => {
                     <div className="flex-1">
                         <Editor
                             height="100%"
-                            theme="vs-dark"
+                            theme={isDark ? "vs-dark" : "light"}
                             language={LANGUAGE_META[language]?.monaco || "javascript"}
                             value={currentCode}
                             onChange={handleEditorChange}
