@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-    ArrowRight, CheckCircle2, Cpu, LineChart, ShieldCheck, Sparkles, Terminal,
+    ArrowRight, CheckCircle2, Cpu, LineChart, ShieldCheck, Terminal,
 } from "lucide-react";
 import axiosClient from "../api/axiosClient";
 import Logo from "../components/Logo";
 import DifficultyBadge from "../components/DifficultyBadge";
 import ThemeToggle from "../components/ThemeToggle";
+import LogoMarquee from "../components/LogoMarquee";
 
 const FEATURE_COLORS = {
     primary: "bg-primary/10 text-primary border-primary/20",
@@ -82,9 +83,6 @@ const Landing = () => {
                 <div className="absolute top-40 -left-32 w-80 h-80 rounded-full bg-accent/10 blur-3xl" />
                 <div className="max-w-6xl mx-auto px-4 lg:px-8 pt-16 pb-20 relative grid lg:grid-cols-2 gap-12 items-center">
                     <div>
-                        <span className="badge badge-outline badge-primary gap-1.5 mb-5">
-                            <Sparkles size={12} /> Built for campus coding practice
-                        </span>
                         <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight tracking-tight mb-5">
                             Sharpen your code.<br />
                             <span className="brand-gradient">Ace the interview.</span>
@@ -153,6 +151,8 @@ const Landing = () => {
                     </div>
                 </div>
             </div>
+
+            <LogoMarquee />
 
             {/* Features */}
             <div className="max-w-6xl mx-auto px-4 lg:px-8 py-16">
