@@ -5,6 +5,15 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CampusCode</title>
+    <script>
+      (function () {
+        var stored = localStorage.getItem('campuscode-theme');
+        var theme = stored === 'leetcode-dark' || stored === 'leetcode-light'
+          ? stored
+          : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'leetcode-light' : 'leetcode-dark');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
