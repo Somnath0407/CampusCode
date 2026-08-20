@@ -6,16 +6,23 @@ import { Toaster } from 'react-hot-toast'
 import './index.css'
 import App from './App.jsx'
 import store from './store/store.js'
+import { ThemeProvider } from './context/ThemeContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-        <Toaster position="top-right" toastOptions={{
-          style: { background: '#262626', color: '#e5e5e5', border: '1px solid #333333' },
-        }} />
-      </BrowserRouter>
+      <ThemeProvider>
+        <BrowserRouter>
+          <App />
+          <Toaster position="top-right" toastOptions={{
+            style: {
+              background: 'var(--color-base-200)',
+              color: 'var(--color-base-content)',
+              border: '1px solid var(--color-base-300)',
+            },
+          }} />
+        </BrowserRouter>
+      </ThemeProvider>
     </Provider>
   </StrictMode>,
 )
