@@ -6,6 +6,7 @@ import {
 import axiosClient from "../api/axiosClient";
 import Logo from "../components/Logo";
 import DifficultyBadge from "../components/DifficultyBadge";
+import ThemeToggle from "../components/ThemeToggle";
 
 const FEATURE_COLORS = {
     primary: "bg-primary/10 text-primary border-primary/20",
@@ -67,6 +68,7 @@ const Landing = () => {
                     </Link>
                 </div>
                 <div className="flex-none flex items-center gap-2">
+                    <ThemeToggle />
                     <Link to="/login" className="btn btn-ghost btn-sm">Log in</Link>
                     <Link to="/signup" className="btn btn-primary btn-sm gap-1.5">
                         Sign up <ArrowRight size={14} />
