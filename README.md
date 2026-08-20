@@ -4,7 +4,9 @@ A full-stack coding-practice platform in the spirit of LeetCode: browse problems
 
 ## Features
 
-- **Landing page** for logged-out visitors — hero, live problem-count stats, feature highlights, and a problem-set preview
+- **Landing page** for logged-out visitors — hero, live problem-count stats, a scrolling logo strip, feature highlights, and a problem-set preview
+- **Light/dark theme toggle**, persisted per browser, with no flash of the wrong theme on load
+- A 50-problem DSA bank (two pointers, sliding window, fast/slow pointers, Kadane's, prefix sums, merge intervals) with verified starter code and reference solutions in **JavaScript, C++, and Java**
 - User registration, login, and logout with JWT-based auth (HTTP-only cookie)
 - Role-based access control (`user` / `admin`), each with its own dashboard after login
 - Logout token blocklisting via Redis (Upstash)
@@ -20,16 +22,22 @@ A full-stack coding-practice platform in the spirit of LeetCode: browse problems
 | Database       | MongoDB + Mongoose                                     |
 | Cache/Blocklist| Redis (Upstash)                                        |
 | Auth           | JWT (`jsonwebtoken`) + `bcrypt`                        |
-| Code execution | Judge0 CE via RapidAPI                                 |
+| Code execution | Judge0 CE via RapidAPI (JavaScript, C++, Java)          |
 | Frontend       | React (Vite), React Router, Redux Toolkit               |
-| Styling        | Tailwind CSS + daisyUI (dark, LeetCode-inspired theme)  |
-| Code editor    | Monaco Editor (`@monaco-editor/react`)                  |
+| Styling        | Tailwind CSS + daisyUI, light/dark themes               |
+| Typography     | Sora (headings), Inter (body), JetBrains Mono (code)    |
+| Code editor    | Monaco Editor (`@monaco-editor/react`), theme-aware      |
 | Icons          | lucide-react                                            |
 
 ## Project Structure
 
 ```
 backend/
+├── scripts/
+│   ├── dsa-50-problems.json       # 50-problem DSA bank (JS solutions, verified test cases)
+│   ├── seedDsaProblems.js         # loads the bank into MongoDB
+│   ├── cpp-java-starter-code.json # C++/Java starter code for the bank
+│   └── addCppJavaStarterCode.js   # applies it to the seeded problems
 └── src/
     ├── config/
     │   ├── db.js                  # MongoDB connection
@@ -55,8 +63,11 @@ frontend/
 └── src/
     ├── api/axiosClient.js          # axios instance (cookies included)
     ├── store/                      # Redux Toolkit auth slice
+    ├── context/ThemeContext.jsx    # light/dark theme state + persistence
     ├── components/
-    │   ├── Logo.jsx                 # CampusCode mark (graduation cap + code chevron)
+    │   ├── Logo.jsx                 # CM monogram mark
+    │   ├── LogoMarquee.jsx          # scrolling logo strip on the landing page
+    │   ├── ThemeToggle.jsx          # light/dark switch
     │   ├── Navbar.jsx
     │   ├── ProtectedRoute.jsx / AdminRoute.jsx
     │   ├── ProblemForm.jsx          # shared create/update problem form
@@ -112,6 +123,15 @@ npm start          # or: npm run dev (auto-restarts on file changes)
 ```
 
 The API starts on `http://localhost:<PORT>` once it connects to MongoDB and Redis.
+
+**Loading the DSA problem bank** (optional, once an admin account exists):
+
+```bash
+node scripts/seedDsaProblems.js          # loads the 50 problems with JS starter code
+node scripts/addCppJavaStarterCode.js    # adds C++ and Java starter code to them
+```
+
+Both scripts are idempotent — safe to re-run, they skip anything already present.
 
 ### Frontend
 
