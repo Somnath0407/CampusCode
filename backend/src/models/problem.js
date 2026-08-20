@@ -17,7 +17,10 @@ const problemSchema = new Schema({
     },
     tags: {
         type: String,
-        enum: ['arrays', 'strings', 'linked-lists', 'trees', 'graphs', 'dynamic-programming', 'greedy', 'backtracking'],
+        enum: [
+            'arrays', 'strings', 'linked-lists', 'trees', 'graphs', 'dynamic-programming', 'greedy', 'backtracking',
+            'two-pointers', 'fast-slow-pointers', 'sliding-window', 'kadane', 'prefix-sum', 'merge-intervals',
+        ],
         required: true,
     },
     visibleTestCases: [
