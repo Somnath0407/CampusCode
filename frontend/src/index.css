@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-  themes: leetcode --default;
+  themes: leetcode-dark --default --prefersdark, leetcode-light;
 }
 
 @plugin "daisyui/theme" {
-  name: "leetcode";
+  name: "leetcode-dark";
   default: true;
   prefersdark: true;
   color-scheme: dark;
@@ -28,6 +28,41 @@
   --color-warning: #ffc01e;
   --color-warning-content: #1a1a1a;
   --color-error: #ff375f;
+  --color-error-content: #ffffff;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.375rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "leetcode-light";
+  default: false;
+  prefersdark: false;
+  color-scheme: light;
+  --color-base-100: #ffffff;
+  --color-base-200: #f6f6f6;
+  --color-base-300: #e5e5e5;
+  --color-base-content: #1a1a1a;
+  --color-primary: #ffa116;
+  --color-primary-content: #1a1a1a;
+  --color-secondary: #1fa855;
+  --color-secondary-content: #ffffff;
+  --color-accent: #3b82f6;
+  --color-accent-content: #ffffff;
+  --color-neutral: #e5e5e5;
+  --color-neutral-content: #1a1a1a;
+  --color-info: #3b82f6;
+  --color-info-content: #ffffff;
+  --color-success: #00a896;
+  --color-success-content: #ffffff;
+  --color-warning: #f0a500;
+  --color-warning-content: #1a1a1a;
+  --color-error: #e11d48;
   --color-error-content: #ffffff;
   --radius-selector: 0.5rem;
   --radius-field: 0.375rem;
