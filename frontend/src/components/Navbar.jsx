@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { LogOut, ShieldCheck } from "lucide-react";
 import { logoutUser } from "../store/authSlice";
 import Logo from "./Logo";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
     const { user } = useSelector((state) => state.auth);
@@ -34,6 +35,7 @@ const Navbar = () => {
                 </Link>
             </div>
             <div className="flex-none flex items-center gap-3">
+                <ThemeToggle />
                 {user && user.role === "admin" && (
                     <span className="badge badge-primary badge-outline gap-1 capitalize hidden sm:inline-flex font-medium">
                         <ShieldCheck size={13} /> Admin
