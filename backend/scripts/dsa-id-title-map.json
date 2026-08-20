@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "title": "Pair with Target Sum"
+  },
+  {
+    "id": 2,
+    "title": "Rearrange 0 and 1"
+  },
+  {
+    "id": 3,
+    "title": "Remove Duplicates"
+  },
+  {
+    "id": 4,
+    "title": "Squaring a Sorted Array"
+  },
+  {
+    "id": 5,
+    "title": "Triplet Sum to Zero"
+  },
+  {
+    "id": 6,
+    "title": "Triplet Sum Close to Target"
+  },
+  {
+    "id": 7,
+    "title": "Triplets with Smaller Sum"
+  },
+  {
+    "id": 8,
+    "title": "Subarrays with Product Less than a Target"
+  },
+  {
+    "id": 9,
+    "title": "Dutch National Flag Problem"
+  },
+  {
+    "id": 10,
+    "title": "Quadruple Sum to Target"
+  },
+  {
+    "id": 11,
+    "title": "Comparing Strings containing Backspaces"
+  },
+  {
+    "id": 12,
+    "title": "Minimum Window Sort"
+  },
+  {
+    "id": 13,
+    "title": "LinkedList Cycle"
+  },
+  {
+    "id": 14,
+    "title": "Start of LinkedList Cycle"
+  },
+  {
+    "id": 15,
+    "title": "Happy Number"
+  },
+  {
+    "id": 16,
+    "title": "Find Duplicate Number"
+  },
+  {
+    "id": 17,
+    "title": "Middle of the LinkedList"
+  },
+  {
+    "id": 18,
+    "title": "Palindrome LinkedList"
+  },
+  {
+    "id": 19,
+    "title": "Rearrange a LinkedList"
+  },
+  {
+    "id": 20,
+    "title": "Cycle in a Circular Array"
+  },
+  {
+    "id": 21,
+    "title": "Maximum Sum Subarray of Size K"
+  },
+  {
+    "id": 22,
+    "title": "Smallest Subarray with a given sum"
+  },
+  {
+    "id": 23,
+    "title": "Longest Substring with K Distinct Characters"
+  },
+  {
+    "id": 24,
+    "title": "Fruits into Baskets"
+  },
+  {
+    "id": 25,
+    "title": "No-repeat Substring"
+  },
+  {
+    "id": 26,
+    "title": "Longest Substring with Same Letters after Replacement"
+  },
+  {
+    "id": 27,
+    "title": "Longest Subarray with Ones after Replacement"
+  },
+  {
+    "id": 28,
+    "title": "Minimum Size Subarray Sum"
+  },
+  {
+    "id": 29,
+    "title": "Minimum Size Substring"
+  },
+  {
+    "id": 30,
+    "title": "Permutation in a String"
+  },
+  {
+    "id": 31,
+    "title": "String Anagrams"
+  },
+  {
+    "id": 32,
+    "title": "Words Concatenation"
+  },
+  {
+    "id": 33,
+    "title": "Maximum Subarray Sum"
+  },
+  {
+    "id": 34,
+    "title": "Minimum Subarray Sum"
+  },
+  {
+    "id": 35,
+    "title": "Maximum Product Subarray"
+  },
+  {
+    "id": 36,
+    "title": "Maximum Subarray Sum with One Deletion"
+  },
+  {
+    "id": 37,
+    "title": "Maximum Absolute Sum of Any Subarray"
+  },
+  {
+    "id": 38,
+    "title": "Maximum Sum in Circular Array"
+  },
+  {
+    "id": 39,
+    "title": "Subarray Sum Equals K"
+  },
+  {
+    "id": 40,
+    "title": "Find Pivot Index"
+  },
+  {
+    "id": 41,
+    "title": "Subarray Sums Divisible By K"
+  },
+  {
+    "id": 42,
+    "title": "Contiguous Array"
+  },
+  {
+    "id": 43,
+    "title": "Shortest Subarray With Sum at Least K"
+  },
+  {
+    "id": 44,
+    "title": "Count Range Sum"
+  },
+  {
+    "id": 45,
+    "title": "Merge Intervals"
+  },
+  {
+    "id": 46,
+    "title": "Insert Interval"
+  },
+  {
+    "id": 47,
+    "title": "Intervals Intersection"
+  },
+  {
+    "id": 48,
+    "title": "Overlapping Intervals"
+  },
+  {
+    "id": 49,
+    "title": "Minimum Meeting Rooms"
+  },
+  {
+    "id": 50,
+    "title": "Maximum CPU Load"
+  }
+]
