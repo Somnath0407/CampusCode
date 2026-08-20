@@ -1,0 +1,1952 @@
+[
+  {
+    "title": "Pair with Target Sum",
+    "description": "Given a sorted integer array and a target value, find the indices of two different elements whose sum equals the target. If no such pair exists, return an empty result.",
+    "difficulty": "easy",
+    "tags": "two-pointers",
+    "visibleTestCases": [
+      {
+        "input": "4\n2 7 11 15\n9",
+        "output": "0 1",
+        "explanation": "nums[0] + nums[1] = 2 + 7 = 9"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "2\n3 3\n6",
+        "output": "0 1"
+      },
+      {
+        "input": "4\n1 2 3 4\n10",
+        "output": "-1"
+      },
+      {
+        "input": "5\n-3 4 3 90 1\n0",
+        "output": "0 2"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function twoSum(nums_, target) {\n    // Write your code here\n    return [-1];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, tg] = L(__input); const arr = N(a); const target = Number(tg);\n      console.log(arrJoin(twoSum(arr, target)));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function twoSum(nums_, target) {\n    const seen = new Map();\n    for (let i = 0; i < nums_.length; i++) {\n        const need = target - nums_[i];\n        if (seen.has(need)) return [seen.get(need), i];\n        seen.set(nums_[i], i);\n    }\n    return [-1];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, tg] = L(__input); const arr = N(a); const target = Number(tg);\n      console.log(arrJoin(twoSum(arr, target)));\n"
+      }
+    ]
+  },
+  {
+    "title": "Rearrange 0 and 1",
+    "description": "Given a binary array containing only 0 and 1, rearrange it in-place so that all 0s appear before all 1s.",
+    "difficulty": "medium",
+    "tags": "two-pointers",
+    "visibleTestCases": [
+      {
+        "input": "5\n1 0 1 0 0",
+        "output": "0 0 0 1 1",
+        "explanation": "All zeros moved before ones"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n0",
+        "output": "0"
+      },
+      {
+        "input": "1\n1",
+        "output": "1"
+      },
+      {
+        "input": "6\n1 1 1 0 0 0",
+        "output": "0 0 0 1 1 1"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function segregate01(a) {\n    // Write your code here\n    return [];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(arrJoin(segregate01(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function segregate01(a) {\n    const zeroCount = a.filter((x) => x === 0).length;\n    return a.map((_, i) => (i < zeroCount ? 0 : 1));\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(arrJoin(segregate01(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Remove Duplicates",
+    "description": "Given sorted data, remove duplicate values so that each value appears only once. Print the number of unique elements, followed by the unique elements in sorted order.",
+    "difficulty": "easy",
+    "tags": "two-pointers",
+    "visibleTestCases": [
+      {
+        "input": "7\n2 3 3 3 6 9 9",
+        "output": "4\n2 3 6 9",
+        "explanation": "Unique sorted values are 2,3,6,9"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n5",
+        "output": "1\n5"
+      },
+      {
+        "input": "5\n1 1 1 1 1",
+        "output": "1\n1"
+      },
+      {
+        "input": "6\n1 2 2 3 3 4",
+        "output": "4\n1 2 3 4"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function removeDuplicates(a) {\n    // Write your code here\n    return [];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); const ans = removeDuplicates(N(a)); console.log(`${ans.length}\\n${arrJoin(ans)}`);\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function removeDuplicates(a) {\n    return Array.from(new Set(a)).sort((x, y) => x - y);\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); const ans = removeDuplicates(N(a)); console.log(`${ans.length}\\n${arrJoin(ans)}`);\n"
+      }
+    ]
+  },
+  {
+    "title": "Squaring a Sorted Array",
+    "description": "Given a sorted array (possibly with negative numbers), return the squares of all elements in non-decreasing order.",
+    "difficulty": "easy",
+    "tags": "two-pointers",
+    "visibleTestCases": [
+      {
+        "input": "5\n-4 -1 0 3 10",
+        "output": "0 1 9 16 100",
+        "explanation": "Squares sorted ascending"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n-2",
+        "output": "4"
+      },
+      {
+        "input": "5\n-5 -3 -1 2 4",
+        "output": "1 4 9 16 25"
+      },
+      {
+        "input": "4\n0 1 2 3",
+        "output": "0 1 4 9"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function sortedSquares(a) {\n    // Write your code here\n    return [];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(arrJoin(sortedSquares(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function sortedSquares(a) {\n    return a.map((x) => x * x).sort((x, y) => x - y);\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(arrJoin(sortedSquares(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Triplet Sum to Zero",
+    "description": "Given an array of integers, find all unique triplets that sum to zero.",
+    "difficulty": "medium",
+    "tags": "two-pointers",
+    "visibleTestCases": [
+      {
+        "input": "6\n-1 0 1 2 -1 -4",
+        "output": "-1 -1 2\n-1 0 1",
+        "explanation": "Two triplets sum to 0"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "3\n0 0 0",
+        "output": "0 0 0"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "output": "-1"
+      },
+      {
+        "input": "5\n-2 0 1 1 2",
+        "output": "-2 0 2\n-2 1 1"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function threeSum(a) {\n    // Write your code here\n    return [];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); const ans = threeSum(N(a));\n      console.log(ans.length === 0 ? '-1' : ans.map(arrJoin).join('\\n'));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function threeSum(a) {\n    const arr = [...a].sort((x, y) => x - y);\n    const res = [];\n    for (let i = 0; i < arr.length - 2; i++) {\n        if (i > 0 && arr[i] === arr[i - 1]) continue;\n        let lo = i + 1, hi = arr.length - 1;\n        while (lo < hi) {\n            const sum = arr[i] + arr[lo] + arr[hi];\n            if (sum === 0) {\n                res.push([arr[i], arr[lo], arr[hi]]);\n                lo++; hi--;\n                while (lo < hi && arr[lo] === arr[lo - 1]) lo++;\n                while (lo < hi && arr[hi] === arr[hi + 1]) hi--;\n            } else if (sum < 0) lo++; else hi--;\n        }\n    }\n    return res;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); const ans = threeSum(N(a));\n      console.log(ans.length === 0 ? '-1' : ans.map(arrJoin).join('\\n'));\n"
+      }
+    ]
+  },
+  {
+    "title": "Triplet Sum Close to Target",
+    "description": "Given an array of integers and a target, find the sum of the triplet closest to the target. If two sums are equally close, return the smaller sum.",
+    "difficulty": "medium",
+    "tags": "two-pointers",
+    "visibleTestCases": [
+      {
+        "input": "4\n-2 0 1 2\n2",
+        "output": "1",
+        "explanation": "-2+1+2=1 is closest to 2"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "3\n-1 2 1\n1",
+        "output": "2"
+      },
+      {
+        "input": "4\n1 1 1 0\n-100",
+        "output": "2"
+      },
+      {
+        "input": "4\n0 0 0 0\n1",
+        "output": "0"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function threeSumClosest(a, target) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, tg] = L(__input); console.log(String(threeSumClosest(N(a), Number(tg))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function threeSumClosest(a, target) {\n    const arr = [...a].sort((x, y) => x - y);\n    let best = arr[0] + arr[1] + arr[2];\n    for (let i = 0; i < arr.length - 2; i++) {\n        let lo = i + 1, hi = arr.length - 1;\n        while (lo < hi) {\n            const sum = arr[i] + arr[lo] + arr[hi];\n            if (Math.abs(sum - target) < Math.abs(best - target) ||\n                (Math.abs(sum - target) === Math.abs(best - target) && sum < best)) best = sum;\n            if (sum === target) return sum;\n            else if (sum < target) lo++; else hi--;\n        }\n    }\n    return best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, tg] = L(__input); console.log(String(threeSumClosest(N(a), Number(tg))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Triplets with Smaller Sum",
+    "description": "Given an array of integers and a target, count the number of triplets whose sum is strictly less than target.",
+    "difficulty": "medium",
+    "tags": "two-pointers",
+    "visibleTestCases": [
+      {
+        "input": "4\n-1 0 2 3\n3",
+        "output": "2",
+        "explanation": "Two triplets sum to less than 3"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "3\n-2 0 1\n2",
+        "output": "1"
+      },
+      {
+        "input": "4\n5 1 3 4\n20",
+        "output": "4"
+      },
+      {
+        "input": "3\n1 2 3\n0",
+        "output": "0"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function countTripletsSmaller(a, target) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, tg] = L(__input); console.log(String(countTripletsSmaller(N(a), Number(tg))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function countTripletsSmaller(a, target) {\n    const arr = [...a].sort((x, y) => x - y);\n    let count = 0;\n    for (let i = 0; i < arr.length - 2; i++) {\n        let lo = i + 1, hi = arr.length - 1;\n        while (lo < hi) {\n            if (arr[i] + arr[lo] + arr[hi] < target) { count += hi - lo; lo++; }\n            else hi--;\n        }\n    }\n    return count;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, tg] = L(__input); console.log(String(countTripletsSmaller(N(a), Number(tg))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Subarrays with Product Less than a Target",
+    "description": "Given an array of positive integers and a target, count the number of contiguous subarrays where the product of all elements is strictly less than target.",
+    "difficulty": "medium",
+    "tags": "two-pointers",
+    "visibleTestCases": [
+      {
+        "input": "4\n2 5 3 10\n30",
+        "output": "6",
+        "explanation": "Sliding window count"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "3\n1 1 1\n2",
+        "output": "6"
+      },
+      {
+        "input": "3\n10 5 2\n100",
+        "output": "5"
+      },
+      {
+        "input": "4\n10 5 2 6\n1",
+        "output": "0"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function numSubarrayProductLessThanK(a, target) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, tg] = L(__input); console.log(String(numSubarrayProductLessThanK(N(a), Number(tg))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function numSubarrayProductLessThanK(a, target) {\n    if (target <= 1) return 0;\n    let product = 1, count = 0, left = 0;\n    for (let right = 0; right < a.length; right++) {\n        product *= a[right];\n        while (product >= target) { product /= a[left]; left++; }\n        count += right - left + 1;\n    }\n    return count;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, tg] = L(__input); console.log(String(numSubarrayProductLessThanK(N(a), Number(tg))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Dutch National Flag Problem",
+    "description": "Given an array containing only 0s, 1s and 2s, sort it in-place in the order 0s, then 1s, then 2s.",
+    "difficulty": "medium",
+    "tags": "two-pointers",
+    "visibleTestCases": [
+      {
+        "input": "6\n2 0 2 1 1 0",
+        "output": "0 0 1 1 2 2",
+        "explanation": "Sorted into 0s, 1s, 2s"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n0",
+        "output": "0"
+      },
+      {
+        "input": "6\n2 2 1 1 0 0",
+        "output": "0 0 1 1 2 2"
+      },
+      {
+        "input": "5\n1 1 1 1 1",
+        "output": "1 1 1 1 1"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function sortColors(a) {\n    // Write your code here\n    return [];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(arrJoin(sortColors(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function sortColors(a) {\n    let lo = 0, mid = 0, hi = a.length - 1;\n    const arr = [...a];\n    while (mid <= hi) {\n        if (arr[mid] === 0) { [arr[lo], arr[mid]] = [arr[mid], arr[lo]]; lo++; mid++; }\n        else if (arr[mid] === 1) mid++;\n        else { [arr[mid], arr[hi]] = [arr[hi], arr[mid]]; hi--; }\n    }\n    return arr;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(arrJoin(sortColors(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Quadruple Sum to Target",
+    "description": "Given an array of integers and a target, find all unique quadruplets that sum to target.",
+    "difficulty": "medium",
+    "tags": "two-pointers",
+    "visibleTestCases": [
+      {
+        "input": "6\n1 0 -1 0 -2 2\n0",
+        "output": "-2 -1 1 2\n-2 0 0 2\n-1 0 0 1",
+        "explanation": "Three unique quadruplets"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "5\n2 2 2 2 2\n8",
+        "output": "2 2 2 2"
+      },
+      {
+        "input": "5\n1 2 3 4 5\n50",
+        "output": "-1"
+      },
+      {
+        "input": "6\n-3 -1 0 2 4 5\n2",
+        "output": "-3 -1 2 4"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function fourSum(a, target) {\n    // Write your code here\n    return [];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, tg] = L(__input); const ans = fourSum(N(a), Number(tg));\n      console.log(ans.length === 0 ? '-1' : ans.map(arrJoin).join('\\n'));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function fourSum(a, target) {\n    const arr = [...a].sort((x, y) => x - y);\n    const n = arr.length;\n    const res = [];\n    for (let i = 0; i < n - 3; i++) {\n        if (i > 0 && arr[i] === arr[i - 1]) continue;\n        for (let j = i + 1; j < n - 2; j++) {\n            if (j > i + 1 && arr[j] === arr[j - 1]) continue;\n            let lo = j + 1, hi = n - 1;\n            while (lo < hi) {\n                const sum = arr[i] + arr[j] + arr[lo] + arr[hi];\n                if (sum === target) {\n                    res.push([arr[i], arr[j], arr[lo], arr[hi]]);\n                    lo++; hi--;\n                    while (lo < hi && arr[lo] === arr[lo - 1]) lo++;\n                    while (lo < hi && arr[hi] === arr[hi + 1]) hi--;\n                } else if (sum < target) lo++; else hi--;\n            }\n        }\n    }\n    return res;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, tg] = L(__input); const ans = fourSum(N(a), Number(tg));\n      console.log(ans.length === 0 ? '-1' : ans.map(arrJoin).join('\\n'));\n"
+      }
+    ]
+  },
+  {
+    "title": "Comparing Strings containing Backspaces",
+    "description": "Given two strings containing the character '#' as a backspace, determine if the two strings are equal after processing backspaces.",
+    "difficulty": "medium",
+    "tags": "two-pointers",
+    "visibleTestCases": [
+      {
+        "input": "xy#z\nxzz#",
+        "output": "true",
+        "explanation": "Both become 'xz'"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "a##c\n#c",
+        "output": "true"
+      },
+      {
+        "input": "ab##\nc#d#",
+        "output": "true"
+      },
+      {
+        "input": "a#c\nb",
+        "output": "false"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function backspaceCompare(s, t) {\n    // Write your code here\n    return false;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [s, tt] = L(__input); console.log(boolStr(backspaceCompare(s, tt)));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function backspaceCompare(s, t) {\n    const build = (str) => {\n        const st = [];\n        for (const c of str) { if (c === '#') st.pop(); else st.push(c); }\n        return st.join('');\n    };\n    return build(s) === build(t);\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [s, tt] = L(__input); console.log(boolStr(backspaceCompare(s, tt)));\n"
+      }
+    ]
+  },
+  {
+    "title": "Minimum Window Sort",
+    "description": "Given an array, find the length of the shortest contiguous subarray which, if sorted, results in the whole array being sorted.",
+    "difficulty": "medium",
+    "tags": "two-pointers",
+    "visibleTestCases": [
+      {
+        "input": "7\n1 2 5 3 7 10 9",
+        "output": "5",
+        "explanation": "Sorting indices 1..5 sorts the array"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "5\n1 2 3 4 5",
+        "output": "0"
+      },
+      {
+        "input": "5\n5 4 3 2 1",
+        "output": "5"
+      },
+      {
+        "input": "3\n1 3 2",
+        "output": "2"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function findUnsortedSubarray(a) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(findUnsortedSubarray(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function findUnsortedSubarray(a) {\n    const sorted = [...a].sort((x, y) => x - y);\n    let start = -1, end = -1;\n    for (let i = 0; i < a.length; i++) {\n        if (a[i] !== sorted[i]) { start = i; break; }\n    }\n    if (start === -1) return 0;\n    for (let i = a.length - 1; i >= 0; i--) {\n        if (a[i] !== sorted[i]) { end = i; break; }\n    }\n    return end - start + 1;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(findUnsortedSubarray(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "LinkedList Cycle",
+    "description": "Given the head of a linked list, determine whether the linked list contains a cycle. pos is the 0-based node index where the tail connects, or -1.",
+    "difficulty": "easy",
+    "tags": "fast-slow-pointers",
+    "visibleTestCases": [
+      {
+        "input": "4\n3 2 0 -4\n1",
+        "output": "true",
+        "explanation": "Tail connects back to index 1"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n1\n-1",
+        "output": "false"
+      },
+      {
+        "input": "2\n1 2\n0",
+        "output": "true"
+      },
+      {
+        "input": "5\n1 2 3 4 5\n4",
+        "output": "true"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function buildNextFn(n, pos) {\n    return (i) => (i === n - 1 ? pos : i + 1);\n}\n\nfunction hasCycleIdx(n, pos) {\n    // Write your code here\n    return false;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, p] = L(__input); console.log(boolStr(hasCycleIdx(N(a).length, Number(p))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function buildNextFn(n, pos) {\n    return (i) => (i === n - 1 ? pos : i + 1);\n}\n\nfunction hasCycleIdx(n, pos) {\n    if (pos < 0 || n === 0) return false;\n    const next = buildNextFn(n, pos);\n    let slow = 0, fast = 0;\n    while (true) {\n        slow = next(slow);\n        if (slow === -1) return false;\n        fast = next(fast); if (fast === -1) return false;\n        fast = next(fast); if (fast === -1) return false;\n        if (slow === fast) return true;\n    }\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, p] = L(__input); console.log(boolStr(hasCycleIdx(N(a).length, Number(p))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Start of LinkedList Cycle",
+    "description": "Given the head of a linked list that may contain a cycle, return the 0-based index of the node where the cycle begins, or -1 if there is no cycle.",
+    "difficulty": "medium",
+    "tags": "fast-slow-pointers",
+    "visibleTestCases": [
+      {
+        "input": "4\n3 2 0 -4\n1",
+        "output": "1",
+        "explanation": "Cycle begins at index 1"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n1\n-1",
+        "output": "-1"
+      },
+      {
+        "input": "2\n1 2\n0",
+        "output": "0"
+      },
+      {
+        "input": "5\n1 2 3 4 5\n3",
+        "output": "3"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function buildNextFn(n, pos) {\n    return (i) => (i === n - 1 ? pos : i + 1);\n}\n\nfunction detectCycleIdx(n, pos) {\n    // Write your code here\n    return -1;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, p] = L(__input); console.log(String(detectCycleIdx(N(a).length, Number(p))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function buildNextFn(n, pos) {\n    return (i) => (i === n - 1 ? pos : i + 1);\n}\n\nfunction detectCycleIdx(n, pos) {\n    if (pos < 0 || n === 0) return -1;\n    const next = buildNextFn(n, pos);\n    let slow = 0, fast = 0;\n    while (true) {\n        slow = next(slow);\n        if (slow === -1) return -1;\n        fast = next(fast); if (fast === -1) return -1;\n        fast = next(fast); if (fast === -1) return -1;\n        if (slow === fast) break;\n    }\n    let ptr = 0;\n    while (ptr !== slow) { ptr = next(ptr); slow = next(slow); }\n    return ptr;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, p] = L(__input); console.log(String(detectCycleIdx(N(a).length, Number(p))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Happy Number",
+    "description": "Starting with a positive integer, repeatedly replace the number with the sum of the squares of its digits. Determine whether the process eventually reaches 1.",
+    "difficulty": "medium",
+    "tags": "fast-slow-pointers",
+    "visibleTestCases": [
+      {
+        "input": "19",
+        "output": "true",
+        "explanation": "19 -> 82 -> 68 -> 100 -> 1"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1",
+        "output": "true"
+      },
+      {
+        "input": "2",
+        "output": "false"
+      },
+      {
+        "input": "7",
+        "output": "true"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function isHappy(n) {\n    // Write your code here\n    return false;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconsole.log(boolStr(isHappy(Number(__input.trim()))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function isHappy(n) {\n    const seen = new Set();\n    while (n !== 1 && !seen.has(n)) {\n        seen.add(n);\n        n = String(n).split('').reduce((acc, d) => acc + Number(d) * Number(d), 0);\n    }\n    return n === 1;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconsole.log(boolStr(isHappy(Number(__input.trim()))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Find Duplicate Number",
+    "description": "An array of n+1 integers in the range [1, n] contains exactly one duplicate. Find that duplicated number.",
+    "difficulty": "medium",
+    "tags": "fast-slow-pointers",
+    "visibleTestCases": [
+      {
+        "input": "5\n1 3 4 2 2",
+        "output": "2",
+        "explanation": "2 appears twice"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "2\n1 1",
+        "output": "1"
+      },
+      {
+        "input": "5\n3 1 3 4 2",
+        "output": "3"
+      },
+      {
+        "input": "6\n1 4 6 3 2 5",
+        "output": "undefined"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function findDuplicate(a) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(findDuplicate(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function findDuplicate(a) {\n    let slow = a[0], fast = a[0];\n    do { slow = a[slow]; fast = a[a[fast]]; } while (slow !== fast);\n    slow = a[0];\n    while (slow !== fast) { slow = a[slow]; fast = a[fast]; }\n    return slow;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(findDuplicate(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Middle of the LinkedList",
+    "description": "Given a linked list, print the value of the middle node. For an even-length list, print the second middle node.",
+    "difficulty": "easy",
+    "tags": "fast-slow-pointers",
+    "visibleTestCases": [
+      {
+        "input": "5\n1 2 3 4 5",
+        "output": "3",
+        "explanation": "Middle element is 3"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n10",
+        "output": "10"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "output": "3"
+      },
+      {
+        "input": "6\n1 2 3 4 5 6",
+        "output": "4"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function middleValue(vals) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(middleValue(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function middleValue(vals) {\n    let slow = 0, fast = 0;\n    while (fast < vals.length - 1 && fast + 1 < vals.length) {\n        slow++;\n        fast += 2;\n    }\n    return vals[slow];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(middleValue(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Palindrome LinkedList",
+    "description": "Given a linked list, determine whether it is a palindrome.",
+    "difficulty": "medium",
+    "tags": "fast-slow-pointers",
+    "visibleTestCases": [
+      {
+        "input": "4\n2 4 6 4",
+        "output": "false",
+        "explanation": "[2,4,6,4] is not a palindrome"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n1",
+        "output": "true"
+      },
+      {
+        "input": "5\n1 2 3 2 1",
+        "output": "true"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "output": "false"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function isPalindromeList(vals) {\n    // Write your code here\n    return false;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(boolStr(isPalindromeList(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function isPalindromeList(vals) {\n    const rev = [...vals].reverse();\n    return vals.every((v, i) => v === rev[i]);\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(boolStr(isPalindromeList(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Rearrange a LinkedList",
+    "description": "Given a singly linked list, reorder it by alternating nodes from the beginning and the end of the list: first, last, second, second-last, ...",
+    "difficulty": "medium",
+    "tags": "fast-slow-pointers",
+    "visibleTestCases": [
+      {
+        "input": "5\n2 4 6 8 10",
+        "output": "2 10 4 8 6",
+        "explanation": "Alternating first/last nodes"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n1",
+        "output": "1"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "output": "1 4 2 3"
+      },
+      {
+        "input": "6\n1 2 3 4 5 6",
+        "output": "1 6 2 5 3 4"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function reorderListVals(vals) {\n    // Write your code here\n    return [];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(arrJoin(reorderListVals(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function reorderListVals(vals) {\n    const res = [];\n    let lo = 0, hi = vals.length - 1, turnLeft = true;\n    while (lo <= hi) {\n        if (turnLeft) { res.push(vals[lo]); lo++; } else { res.push(vals[hi]); hi--; }\n        turnLeft = !turnLeft;\n    }\n    return res;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(arrJoin(reorderListVals(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Cycle in a Circular Array",
+    "description": "Given a circular array of non-zero integers representing forward or backward jumps, determine whether a valid cycle (length > 1, single direction) exists.",
+    "difficulty": "hard",
+    "tags": "fast-slow-pointers",
+    "visibleTestCases": [
+      {
+        "input": "5\n2 -1 1 2 2",
+        "output": "true",
+        "explanation": "A valid forward cycle exists"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n1",
+        "output": "false"
+      },
+      {
+        "input": "2\n1 -1",
+        "output": "false"
+      },
+      {
+        "input": "5\n-1 -2 -3 -4 -5",
+        "output": "false"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function circularArrayLoop(a) {\n    // Write your code here\n    return false;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(boolStr(circularArrayLoop(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function circularArrayLoop(a) {\n    const n = a.length;\n    const next = (i) => (((i + a[i]) % n) + n) % n;\n    for (let i = 0; i < n; i++) {\n        if (a[i] === 0) continue;\n        const isForward = a[i] > 0;\n        let slow = i, fast = i;\n        let valid = true;\n        while (valid) {\n            slow = next(slow);\n            if (a[slow] === 0 || (a[slow] > 0) !== isForward) { valid = false; break; }\n            fast = next(fast);\n            if (a[fast] === 0 || (a[fast] > 0) !== isForward) { valid = false; break; }\n            fast = next(fast);\n            if (a[fast] === 0 || (a[fast] > 0) !== isForward) { valid = false; break; }\n            if (slow === fast) {\n                if (slow === next(slow)) { valid = false; break; }\n                return true;\n            }\n        }\n    }\n    return false;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(boolStr(circularArrayLoop(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Maximum Sum Subarray of Size K",
+    "description": "Given an array and an integer k, find the maximum sum of any contiguous subarray of size k.",
+    "difficulty": "easy",
+    "tags": "sliding-window",
+    "visibleTestCases": [
+      {
+        "input": "6\n2 1 5 1 3 2\n3",
+        "output": "9",
+        "explanation": "5+1+3=9"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "5\n2 3 4 1 5\n2",
+        "output": "7"
+      },
+      {
+        "input": "4\n1 1 1 1\n4",
+        "output": "4"
+      },
+      {
+        "input": "3\n-1 -2 -3\n2",
+        "output": "-3"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function maximumSumSubarray(a, k) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, k] = L(__input); console.log(String(maximumSumSubarray(N(a), Number(k))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function maximumSumSubarray(a, k) {\n    let sum = 0;\n    for (let i = 0; i < k; i++) sum += a[i];\n    let best = sum;\n    for (let i = k; i < a.length; i++) { sum += a[i] - a[i - k]; best = Math.max(best, sum); }\n    return best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, k] = L(__input); console.log(String(maximumSumSubarray(N(a), Number(k))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Smallest Subarray with a given sum",
+    "description": "Given an array and a target, find the length of the smallest contiguous subarray whose sum is greater than or equal to target. Print 0 if none exists.",
+    "difficulty": "easy",
+    "tags": "sliding-window",
+    "visibleTestCases": [
+      {
+        "input": "6\n2 1 5 2 3 2\n7",
+        "output": "2",
+        "explanation": "[5,2] sums to 7"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "3\n1 1 1\n5",
+        "output": "0"
+      },
+      {
+        "input": "1\n7\n7",
+        "output": "1"
+      },
+      {
+        "input": "5\n1 2 3 4 5\n11",
+        "output": "3"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function minSubArrayLen(a, target) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, tg] = L(__input); console.log(String(minSubArrayLen(N(a), Number(tg))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function minSubArrayLen(a, target) {\n    let left = 0, sum = 0, best = Infinity;\n    for (let right = 0; right < a.length; right++) {\n        sum += a[right];\n        while (sum >= target) { best = Math.min(best, right - left + 1); sum -= a[left]; left++; }\n    }\n    return best === Infinity ? 0 : best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, tg] = L(__input); console.log(String(minSubArrayLen(N(a), Number(tg))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Longest Substring with K Distinct Characters",
+    "description": "Given a string and an integer k, find the length of the longest substring with at most k distinct characters.",
+    "difficulty": "medium",
+    "tags": "sliding-window",
+    "visibleTestCases": [
+      {
+        "input": "araaci\n2",
+        "output": "4",
+        "explanation": "\"araa\" has 2 distinct characters"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "araaci\n1",
+        "output": "2"
+      },
+      {
+        "input": "cbbebi\n3",
+        "output": "5"
+      },
+      {
+        "input": "aaaa\n2",
+        "output": "4"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function longestKSubstr(s, k) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [s, k] = L(__input); console.log(String(longestKSubstr(s, Number(k))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function longestKSubstr(s, k) {\n    const count = new Map();\n    let left = 0, best = 0;\n    for (let right = 0; right < s.length; right++) {\n        count.set(s[right], (count.get(s[right]) || 0) + 1);\n        while (count.size > k) {\n            const c = s[left];\n            count.set(c, count.get(c) - 1);\n            if (count.get(c) === 0) count.delete(c);\n            left++;\n        }\n        best = Math.max(best, right - left + 1);\n    }\n    return best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [s, k] = L(__input); console.log(String(longestKSubstr(s, Number(k))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Fruits into Baskets",
+    "description": "Given an array of fruit types, find the maximum number of fruits collectible using at most two distinct fruit types (contiguous).",
+    "difficulty": "medium",
+    "tags": "sliding-window",
+    "visibleTestCases": [
+      {
+        "input": "5\nA B C A C",
+        "output": "3",
+        "explanation": "\"C A C\" has 2 fruit types"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "4\nA B B C",
+        "output": "3"
+      },
+      {
+        "input": "5\nA B C B B",
+        "output": "4"
+      },
+      {
+        "input": "1\nA",
+        "output": "1"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function totalFruit(fruits) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(totalFruit(a.trim().split(/\\s+/))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function totalFruit(fruits) {\n    const count = new Map();\n    let left = 0, best = 0;\n    for (let right = 0; right < fruits.length; right++) {\n        count.set(fruits[right], (count.get(fruits[right]) || 0) + 1);\n        while (count.size > 2) {\n            const c = fruits[left];\n            count.set(c, count.get(c) - 1);\n            if (count.get(c) === 0) count.delete(c);\n            left++;\n        }\n        best = Math.max(best, right - left + 1);\n    }\n    return best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(totalFruit(a.trim().split(/\\s+/))));\n"
+      }
+    ]
+  },
+  {
+    "title": "No-repeat Substring",
+    "description": "Given a string, find the length of the longest substring without repeating characters.",
+    "difficulty": "hard",
+    "tags": "sliding-window",
+    "visibleTestCases": [
+      {
+        "input": "aabccbb",
+        "output": "3",
+        "explanation": "\"abc\" has no repeats"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "bbbbb",
+        "output": "1"
+      },
+      {
+        "input": "pwwkew",
+        "output": "3"
+      },
+      {
+        "input": "a",
+        "output": "1"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function lengthOfLongestSubstring(s) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst s = __input.split('\\n')[0] ?? ''; console.log(String(lengthOfLongestSubstring(s)));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function lengthOfLongestSubstring(s) {\n    const seen = new Map();\n    let left = 0, best = 0;\n    for (let right = 0; right < s.length; right++) {\n        const c = s[right];\n        if (seen.has(c) && seen.get(c) >= left) left = seen.get(c) + 1;\n        seen.set(c, right);\n        best = Math.max(best, right - left + 1);\n    }\n    return best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst s = __input.split('\\n')[0] ?? ''; console.log(String(lengthOfLongestSubstring(s)));\n"
+      }
+    ]
+  },
+  {
+    "title": "Longest Substring with Same Letters after Replacement",
+    "description": "Given a string and an integer k, find the length of the longest substring obtainable with at most k character replacements so that all characters in it are the same.",
+    "difficulty": "hard",
+    "tags": "sliding-window",
+    "visibleTestCases": [
+      {
+        "input": "aabccbb\n2",
+        "output": "5",
+        "explanation": "Replace to get \"bccbb\" style window"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "abbcb\n1",
+        "output": "4"
+      },
+      {
+        "input": "aaaa\n0",
+        "output": "4"
+      },
+      {
+        "input": "abcd\n3",
+        "output": "4"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function characterReplacement(s, k) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [s, k] = L(__input); console.log(String(characterReplacement(s, Number(k))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function characterReplacement(s, k) {\n    const count = new Map();\n    let left = 0, maxCount = 0, best = 0;\n    for (let right = 0; right < s.length; right++) {\n        count.set(s[right], (count.get(s[right]) || 0) + 1);\n        maxCount = Math.max(maxCount, count.get(s[right]));\n        while ((right - left + 1) - maxCount > k) {\n            count.set(s[left], count.get(s[left]) - 1);\n            left++;\n        }\n        best = Math.max(best, right - left + 1);\n    }\n    return best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [s, k] = L(__input); console.log(String(characterReplacement(s, Number(k))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Longest Subarray with Ones after Replacement",
+    "description": "Given a binary array and integer k, find the length of the longest subarray containing only 1s after replacing at most k zeros with 1s.",
+    "difficulty": "hard",
+    "tags": "sliding-window",
+    "visibleTestCases": [
+      {
+        "input": "8\n0 1 1 0 0 0 1 1\n2",
+        "output": "4",
+        "explanation": "No length-5 window has at most 2 zeros; best is length 4"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "3\n0 0 0\n1",
+        "output": "1"
+      },
+      {
+        "input": "5\n1 1 1 1 1\n2",
+        "output": "5"
+      },
+      {
+        "input": "6\n1 0 1 0 1 0\n1",
+        "output": "3"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function longestOnes(a, k) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, k] = L(__input); console.log(String(longestOnes(N(a), Number(k))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function longestOnes(a, k) {\n    let left = 0, zeros = 0, best = 0;\n    for (let right = 0; right < a.length; right++) {\n        if (a[right] === 0) zeros++;\n        while (zeros > k) { if (a[left] === 0) zeros--; left++; }\n        best = Math.max(best, right - left + 1);\n    }\n    return best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, k] = L(__input); console.log(String(longestOnes(N(a), Number(k))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Minimum Size Subarray Sum",
+    "description": "Given an array and a target, find the minimal length of a contiguous subarray whose sum is greater than or equal to target. Print 0 if none exists.",
+    "difficulty": "medium",
+    "tags": "sliding-window",
+    "visibleTestCases": [
+      {
+        "input": "6\n2 3 1 2 4 3\n7",
+        "output": "2",
+        "explanation": "[4,3] sums to 7"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "3\n1 1 1\n5",
+        "output": "0"
+      },
+      {
+        "input": "1\n7\n7",
+        "output": "1"
+      },
+      {
+        "input": "5\n1 2 3 4 5\n11",
+        "output": "3"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function minSubArrayLen(a, target) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, tg] = L(__input); console.log(String(minSubArrayLen(N(a), Number(tg))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function minSubArrayLen(a, target) {\n    let left = 0, sum = 0, best = Infinity;\n    for (let right = 0; right < a.length; right++) {\n        sum += a[right];\n        while (sum >= target) { best = Math.min(best, right - left + 1); sum -= a[left]; left++; }\n    }\n    return best === Infinity ? 0 : best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, tg] = L(__input); console.log(String(minSubArrayLen(N(a), Number(tg))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Minimum Size Substring",
+    "description": "Given strings s and t, find the minimum window substring of s that contains every character of t (including duplicates). Print -1 if no such window exists.",
+    "difficulty": "hard",
+    "tags": "sliding-window",
+    "visibleTestCases": [
+      {
+        "input": "ADOBECODEBANC\nABC",
+        "output": "BANC",
+        "explanation": "Smallest window containing A, B, C"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "a\naa",
+        "output": "-1"
+      },
+      {
+        "input": "aa\nAA",
+        "output": "-1"
+      },
+      {
+        "input": "aaflslflsldkalskaaa\naaa",
+        "output": "aaa"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function minWindow(s, t) {\n    // Write your code here\n    return '';\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [s, tt] = L(__input); const ans = minWindow(s, tt); console.log(ans === '' ? '-1' : ans);\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function minWindow(s, t) {\n    if (t.length > s.length) return '';\n    const need = new Map();\n    for (const c of t) need.set(c, (need.get(c) || 0) + 1);\n    let missing = t.length, left = 0, bestLen = Infinity, bestStart = 0;\n    for (let right = 0; right < s.length; right++) {\n        const c = s[right];\n        if (need.has(c)) {\n            if (need.get(c) > 0) missing--;\n            need.set(c, need.get(c) - 1);\n        }\n        while (missing === 0) {\n            if (right - left + 1 < bestLen) { bestLen = right - left + 1; bestStart = left; }\n            const lc = s[left];\n            if (need.has(lc)) {\n                need.set(lc, need.get(lc) + 1);\n                if (need.get(lc) > 0) missing++;\n            }\n            left++;\n        }\n    }\n    return bestLen === Infinity ? '' : s.slice(bestStart, bestStart + bestLen);\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [s, tt] = L(__input); const ans = minWindow(s, tt); console.log(ans === '' ? '-1' : ans);\n"
+      }
+    ]
+  },
+  {
+    "title": "Permutation in a String",
+    "description": "Given strings s and p, determine if any permutation of p occurs as a contiguous substring of s.",
+    "difficulty": "hard",
+    "tags": "sliding-window",
+    "visibleTestCases": [
+      {
+        "input": "oidbcaf\nabc",
+        "output": "true",
+        "explanation": "\"bca\" is a permutation of \"abc\""
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "odicf\ndc",
+        "output": "false"
+      },
+      {
+        "input": "bcdxabcdy\nbcdyabcdx",
+        "output": "true"
+      },
+      {
+        "input": "aaacb\nabc",
+        "output": "true"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function checkInclusion(s, p) {\n    // Write your code here\n    return false;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [s, p] = L(__input); console.log(boolStr(checkInclusion(s, p)));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function checkInclusion(s, p) {\n    if (p.length > s.length) return false;\n    const need = new Array(26).fill(0);\n    const win = new Array(26).fill(0);\n    const A = 'a'.charCodeAt(0);\n    for (const c of p) need[c.charCodeAt(0) - A]++;\n    for (let i = 0; i < s.length; i++) {\n        win[s.charCodeAt(i) - A]++;\n        if (i >= p.length) win[s.charCodeAt(i - p.length) - A]--;\n        if (i >= p.length - 1 && need.every((v, idx) => v === win[idx])) return true;\n    }\n    return false;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [s, p] = L(__input); console.log(boolStr(checkInclusion(s, p)));\n"
+      }
+    ]
+  },
+  {
+    "title": "String Anagrams",
+    "description": "Given strings s and p, print all starting indices of anagrams of p in s. Print -1 if none exists.",
+    "difficulty": "hard",
+    "tags": "sliding-window",
+    "visibleTestCases": [
+      {
+        "input": "cbaebabacd\nabc",
+        "output": "0 6",
+        "explanation": "Anagrams start at indices 0 and 6"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "abab\nab",
+        "output": "0 1 2"
+      },
+      {
+        "input": "aaaaa\nb",
+        "output": "-1"
+      },
+      {
+        "input": "baa\naa",
+        "output": "1"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function findAnagrams(s, p) {\n    // Write your code here\n    return [];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [s, p] = L(__input); const ans = findAnagrams(s, p); console.log(ans.length === 0 ? '-1' : arrJoin(ans));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function findAnagrams(s, p) {\n    if (p.length > s.length) return [];\n    const need = new Array(26).fill(0);\n    const win = new Array(26).fill(0);\n    const A = 'a'.charCodeAt(0);\n    for (const c of p) need[c.charCodeAt(0) - A]++;\n    const res = [];\n    for (let i = 0; i < s.length; i++) {\n        win[s.charCodeAt(i) - A]++;\n        if (i >= p.length) win[s.charCodeAt(i - p.length) - A]--;\n        if (i >= p.length - 1 && need.every((v, idx) => v === win[idx])) res.push(i - p.length + 1);\n    }\n    return res;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [s, p] = L(__input); const ans = findAnagrams(s, p); console.log(ans.length === 0 ? '-1' : arrJoin(ans));\n"
+      }
+    ]
+  },
+  {
+    "title": "Words Concatenation",
+    "description": "Given a string s and a list of words (all the same length), find all starting indices where a concatenation of every word exactly once occurs. Print -1 if none exists.",
+    "difficulty": "hard",
+    "tags": "sliding-window",
+    "visibleTestCases": [
+      {
+        "input": "barfoothefoobarman\n2\nfoo bar",
+        "output": "0 9",
+        "explanation": "Concatenations start at 0 and 9"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "wordgoodgoodgoodbestword\n4\nword good best good",
+        "output": "8"
+      },
+      {
+        "input": "barfoofoobarthefoobarman\n3\nbar foo the",
+        "output": "6 9 12"
+      },
+      {
+        "input": "abcdef\n2\ngh ij",
+        "output": "-1"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function findSubstring(s, words) {\n    // Write your code here\n    return [];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst lines = L(__input); const s = lines[0]; const m = Number(lines[1]); const words = lines[2].trim().split(/\\s+/).slice(0, m);\n      const ans = findSubstring(s, words); console.log(ans.length === 0 ? '-1' : arrJoin(ans));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function findSubstring(s, words) {\n    if (words.length === 0) return [];\n    const wl = words[0].length, total = wl * words.length;\n    if (total > s.length) return [];\n    const need = new Map();\n    for (const w of words) need.set(w, (need.get(w) || 0) + 1);\n    const res = [];\n    for (let i = 0; i + total <= s.length; i++) {\n        const seen = new Map();\n        let j = 0;\n        for (; j < words.length; j++) {\n            const w = s.substr(i + j * wl, wl);\n            if (!need.has(w)) break;\n            seen.set(w, (seen.get(w) || 0) + 1);\n            if (seen.get(w) > need.get(w)) break;\n        }\n        if (j === words.length) res.push(i);\n    }\n    return res;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst lines = L(__input); const s = lines[0]; const m = Number(lines[1]); const words = lines[2].trim().split(/\\s+/).slice(0, m);\n      const ans = findSubstring(s, words); console.log(ans.length === 0 ? '-1' : arrJoin(ans));\n"
+      }
+    ]
+  },
+  {
+    "title": "Maximum Subarray Sum",
+    "description": "Given an array of integers, find the maximum sum of a non-empty contiguous subarray.",
+    "difficulty": "medium",
+    "tags": "kadane",
+    "visibleTestCases": [
+      {
+        "input": "9\n-2 1 -3 4 -1 2 1 -5 4",
+        "output": "6",
+        "explanation": "[4,-1,2,1] sums to 6"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n-5",
+        "output": "-5"
+      },
+      {
+        "input": "4\n1 2 3 4",
+        "output": "10"
+      },
+      {
+        "input": "5\n-2 -3 -1 -4 -6",
+        "output": "-1"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function maxSubArray(a) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(maxSubArray(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function maxSubArray(a) {\n    let cur = a[0], best = a[0];\n    for (let i = 1; i < a.length; i++) { cur = Math.max(a[i], cur + a[i]); best = Math.max(best, cur); }\n    return best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(maxSubArray(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Minimum Subarray Sum",
+    "description": "Given an array of integers, find the minimum sum of a non-empty contiguous subarray.",
+    "difficulty": "medium",
+    "tags": "kadane",
+    "visibleTestCases": [
+      {
+        "input": "5\n3 -4 2 -3 -1",
+        "output": "-6",
+        "explanation": "[-4,2,-3,-1] sums to -6"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n5",
+        "output": "5"
+      },
+      {
+        "input": "4\n-1 -2 -3 -4",
+        "output": "-10"
+      },
+      {
+        "input": "5\n2 -5 1 -4 3",
+        "output": "-8"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function minSubArray(a) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(minSubArray(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function minSubArray(a) {\n    let cur = a[0], best = a[0];\n    for (let i = 1; i < a.length; i++) { cur = Math.min(a[i], cur + a[i]); best = Math.min(best, cur); }\n    return best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(minSubArray(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Maximum Product Subarray",
+    "description": "Given an array of integers, find the maximum product of a non-empty contiguous subarray.",
+    "difficulty": "medium",
+    "tags": "kadane",
+    "visibleTestCases": [
+      {
+        "input": "4\n2 3 -2 4",
+        "output": "6",
+        "explanation": "[2,3] has product 6"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n0",
+        "output": "0"
+      },
+      {
+        "input": "3\n-2 0 -1",
+        "output": "0"
+      },
+      {
+        "input": "3\n-2 3 -4",
+        "output": "24"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function maxProduct(a) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(maxProduct(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function maxProduct(a) {\n    let curMax = a[0], curMin = a[0], best = a[0];\n    for (let i = 1; i < a.length; i++) {\n        const x = a[i];\n        const candMax = Math.max(x, curMax * x, curMin * x);\n        const candMin = Math.min(x, curMax * x, curMin * x);\n        curMax = candMax; curMin = candMin;\n        best = Math.max(best, curMax);\n    }\n    return best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(maxProduct(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Maximum Subarray Sum with One Deletion",
+    "description": "Given an array of integers, find the maximum sum of a non-empty contiguous subarray after deleting at most one element.",
+    "difficulty": "medium",
+    "tags": "kadane",
+    "visibleTestCases": [
+      {
+        "input": "4\n1 -2 0 3",
+        "output": "4",
+        "explanation": "Delete -2 to get [1,0,3]=4"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n-1",
+        "output": "-1"
+      },
+      {
+        "input": "3\n1 -2 3",
+        "output": "4"
+      },
+      {
+        "input": "4\n-1 -1 -1 -1",
+        "output": "-1"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function maximumSumOneDeletion(a) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(maximumSumOneDeletion(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function maximumSumOneDeletion(a) {\n    let noDelete = a[0], withDelete = 0, best = a[0];\n    for (let i = 1; i < a.length; i++) {\n        withDelete = Math.max(withDelete + a[i], noDelete);\n        noDelete = Math.max(noDelete + a[i], a[i]);\n        best = Math.max(best, noDelete, withDelete);\n    }\n    return best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(maximumSumOneDeletion(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Maximum Absolute Sum of Any Subarray",
+    "description": "Given an array of integers, find the maximum absolute value of the sum of any contiguous subarray.",
+    "difficulty": "medium",
+    "tags": "kadane",
+    "visibleTestCases": [
+      {
+        "input": "5\n1 -3 2 3 -4",
+        "output": "5",
+        "explanation": "[2,3] sums to 5"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n-7",
+        "output": "7"
+      },
+      {
+        "input": "3\n1 2 3",
+        "output": "6"
+      },
+      {
+        "input": "3\n-2 -3 -1",
+        "output": "6"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function maxAbsoluteSum(a) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(maxAbsoluteSum(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function maxAbsoluteSum(a) {\n    let maxCur = 0, minCur = 0, maxBest = 0, minBest = 0;\n    for (const x of a) {\n        maxCur = Math.max(0, maxCur) + x;\n        minCur = Math.min(0, minCur) + x;\n        maxBest = Math.max(maxBest, maxCur);\n        minBest = Math.min(minBest, minCur);\n    }\n    return Math.max(maxBest, -minBest);\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(maxAbsoluteSum(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Maximum Sum in Circular Array",
+    "description": "Given a circular array of integers, find the maximum possible sum of a non-empty subarray, where the subarray may wrap around.",
+    "difficulty": "medium",
+    "tags": "kadane",
+    "visibleTestCases": [
+      {
+        "input": "4\n5 -3 5 -2",
+        "output": "8",
+        "explanation": "Wrap subarray [5,-2,5] (idx 2,3,0) sums to 8"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "3\n1 -2 3",
+        "output": "4"
+      },
+      {
+        "input": "3\n-3 -2 -3",
+        "output": "-2"
+      },
+      {
+        "input": "3\n5 -3 5",
+        "output": "10"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function maxSubarraySumCircular(a) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(maxSubarraySumCircular(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function maxSubarraySumCircular(a) {\n    let total = 0, curMax = 0, best = -Infinity, curMin = 0, worst = Infinity;\n    for (const x of a) {\n        curMax = Math.max(curMax, 0) + x; best = Math.max(best, curMax);\n        curMin = Math.min(curMin, 0) + x; worst = Math.min(worst, curMin);\n        total += x;\n    }\n    if (best < 0) return best;\n    return Math.max(best, total - worst);\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(maxSubarraySumCircular(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Subarray Sum Equals K",
+    "description": "Given an array of integers and an integer k, find the total number of contiguous subarrays whose sum equals k.",
+    "difficulty": "easy",
+    "tags": "prefix-sum",
+    "visibleTestCases": [
+      {
+        "input": "3\n1 1 1\n2",
+        "output": "2",
+        "explanation": "Two subarrays sum to 2"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "3\n1 -1 0\n0",
+        "output": "3"
+      },
+      {
+        "input": "2\n1 2\n3",
+        "output": "1"
+      },
+      {
+        "input": "3\n1 2 3\n7",
+        "output": "0"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function subarraySum(a, k) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, k] = L(__input); console.log(String(subarraySum(N(a), Number(k))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function subarraySum(a, k) {\n    const count = new Map([[0, 1]]);\n    let sum = 0, total = 0;\n    for (const x of a) {\n        sum += x;\n        total += count.get(sum - k) || 0;\n        count.set(sum, (count.get(sum) || 0) + 1);\n    }\n    return total;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, k] = L(__input); console.log(String(subarraySum(N(a), Number(k))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Find Pivot Index",
+    "description": "Given an array of integers, return the leftmost pivot index where the sum of elements to the left equals the sum of elements to the right. Print -1 if none exists.",
+    "difficulty": "easy",
+    "tags": "prefix-sum",
+    "visibleTestCases": [
+      {
+        "input": "6\n1 7 3 6 5 6",
+        "output": "3",
+        "explanation": "Left sum 1+7+3=11, right sum 5+6=11"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n10",
+        "output": "0"
+      },
+      {
+        "input": "3\n1 2 3",
+        "output": "-1"
+      },
+      {
+        "input": "5\n2 1 -1 2 1",
+        "output": "1"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function pivotIndex(a) {\n    // Write your code here\n    return -1;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(pivotIndex(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function pivotIndex(a) {\n    const total = a.reduce((s, x) => s + x, 0);\n    let left = 0;\n    for (let i = 0; i < a.length; i++) {\n        if (left === total - left - a[i]) return i;\n        left += a[i];\n    }\n    return -1;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(pivotIndex(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Subarray Sums Divisible By K",
+    "description": "Given an array of integers and an integer k, find the number of contiguous subarrays whose sum is divisible by k.",
+    "difficulty": "medium",
+    "tags": "prefix-sum",
+    "visibleTestCases": [
+      {
+        "input": "6\n4 5 0 -2 -3 1\n5",
+        "output": "7",
+        "explanation": "Seven subarrays sum to a multiple of 5"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "3\n5 0 5\n5",
+        "output": "6"
+      },
+      {
+        "input": "3\n-1 2 9\n2",
+        "output": "2"
+      },
+      {
+        "input": "4\n1 2 3 4\n1",
+        "output": "10"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function subarraysDivByK(a, k) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, k] = L(__input); console.log(String(subarraysDivByK(N(a), Number(k))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function subarraysDivByK(a, k) {\n    const count = new Map([[0, 1]]);\n    let sum = 0, total = 0;\n    for (const x of a) {\n        sum += x;\n        const r = ((sum % k) + k) % k;\n        total += count.get(r) || 0;\n        count.set(r, (count.get(r) || 0) + 1);\n    }\n    return total;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, k] = L(__input); console.log(String(subarraysDivByK(N(a), Number(k))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Contiguous Array",
+    "description": "Given a binary array of 0s and 1s, find the maximum length of a contiguous subarray with an equal number of 0s and 1s.",
+    "difficulty": "medium",
+    "tags": "prefix-sum",
+    "visibleTestCases": [
+      {
+        "input": "2\n0 1",
+        "output": "2",
+        "explanation": "The whole array has equal 0s and 1s"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "4\n0 1 0 1",
+        "output": "4"
+      },
+      {
+        "input": "3\n0 0 0",
+        "output": "0"
+      },
+      {
+        "input": "8\n0 0 1 0 0 0 1 1",
+        "output": "6"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function findMaxLength(a) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(findMaxLength(N(a))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function findMaxLength(a) {\n    const firstIdx = new Map([[0, -1]]);\n    let sum = 0, best = 0;\n    for (let i = 0; i < a.length; i++) {\n        sum += a[i] === 0 ? -1 : 1;\n        if (firstIdx.has(sum)) best = Math.max(best, i - firstIdx.get(sum));\n        else firstIdx.set(sum, i);\n    }\n    return best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a] = L(__input); console.log(String(findMaxLength(N(a))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Shortest Subarray With Sum at Least K",
+    "description": "Given an array of integers and an integer k, find the length of the shortest non-empty subarray with sum at least k. Print -1 if none exists.",
+    "difficulty": "hard",
+    "tags": "prefix-sum",
+    "visibleTestCases": [
+      {
+        "input": "3\n2 -1 2\n3",
+        "output": "3",
+        "explanation": "The whole array sums to 3"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n1\n1",
+        "output": "1"
+      },
+      {
+        "input": "2\n1 2\n4",
+        "output": "-1"
+      },
+      {
+        "input": "5\n84 -37 32 40 95\n167",
+        "output": "3"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function shortestSubarray(a, k) {\n    // Write your code here\n    return -1;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, k] = L(__input); console.log(String(shortestSubarray(N(a), Number(k))));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function shortestSubarray(a, k) {\n    const n = a.length;\n    const prefix = new Array(n + 1).fill(0);\n    for (let i = 0; i < n; i++) prefix[i + 1] = prefix[i] + a[i];\n    const deque = [];\n    let best = Infinity;\n    for (let i = 0; i <= n; i++) {\n        while (deque.length && prefix[i] - prefix[deque[0]] >= k) best = Math.min(best, i - deque.shift());\n        while (deque.length && prefix[deque[deque.length - 1]] >= prefix[i]) deque.pop();\n        deque.push(i);\n    }\n    return best === Infinity ? -1 : best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, k] = L(__input); console.log(String(shortestSubarray(N(a), Number(k))));\n"
+      }
+    ]
+  },
+  {
+    "title": "Count Range Sum",
+    "description": "Given an array of integers and a range [lower, upper], count the number of range sums that lie within the inclusive interval.",
+    "difficulty": "hard",
+    "tags": "prefix-sum",
+    "visibleTestCases": [
+      {
+        "input": "3\n-2 5 -1\n-2 2",
+        "output": "3",
+        "explanation": "Three range sums fall within [-2,2]"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n0\n0 0",
+        "output": "1"
+      },
+      {
+        "input": "3\n1 2 3\n3 5",
+        "output": "3"
+      },
+      {
+        "input": "2\n-1 1\n0 0",
+        "output": "1"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function countRangeSum(a, lower, upper) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, bounds] = L(__input); const [lower, upper] = N(bounds); console.log(String(countRangeSum(N(a), lower, upper)));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function countRangeSum(a, lower, upper) {\n    const n = a.length;\n    const prefix = new Array(n + 1).fill(0);\n    for (let i = 0; i < n; i++) prefix[i + 1] = prefix[i] + a[i];\n    function sort(lo, hi) {\n        if (hi - lo <= 1) return 0;\n        const mid = (lo + hi) >> 1;\n        let count = sort(lo, mid) + sort(mid, hi);\n        let j = mid, k = mid;\n        for (let i = lo; i < mid; i++) {\n            while (j < hi && prefix[j] - prefix[i] < lower) j++;\n            while (k < hi && prefix[k] - prefix[i] <= upper) k++;\n            count += k - j;\n        }\n        const merged = [];\n        let l = lo, r = mid;\n        while (l < mid && r < hi) merged.push(prefix[l] <= prefix[r] ? prefix[l++] : prefix[r++]);\n        while (l < mid) merged.push(prefix[l++]);\n        while (r < hi) merged.push(prefix[r++]);\n        for (let i = 0; i < merged.length; i++) prefix[lo + i] = merged[i];\n        return count;\n    }\n    return sort(0, n + 1);\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst [n1, a, bounds] = L(__input); const [lower, upper] = N(bounds); console.log(String(countRangeSum(N(a), lower, upper)));\n"
+      }
+    ]
+  },
+  {
+    "title": "Merge Intervals",
+    "description": "Given a collection of intervals, merge all overlapping intervals.",
+    "difficulty": "medium",
+    "tags": "merge-intervals",
+    "visibleTestCases": [
+      {
+        "input": "4\n1 3\n2 6\n8 10\n15 18",
+        "output": "1 6\n8 10\n15 18",
+        "explanation": "[1,3] and [2,6] overlap"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "3\n1 4\n4 5\n8 10",
+        "output": "1 5\n8 10"
+      },
+      {
+        "input": "3\n1 2\n3 4\n5 6",
+        "output": "1 2\n3 4\n5 6"
+      },
+      {
+        "input": "1\n2 3",
+        "output": "2 3"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function mergeIntervals(intervals) {\n    // Write your code here\n    return [];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst lines = L(__input); const n1 = Number(lines[0]); const intervals = [];\n      for (let i = 0; i < n1; i++) intervals.push(N(lines[i + 1]));\n      console.log(mergeIntervals(intervals).map(arrJoin).join('\\n'));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function mergeIntervals(intervals) {\n    const arr = [...intervals].sort((a, b) => a[0] - b[0]);\n    const res = [];\n    for (const [s, e] of arr) {\n        if (res.length && s <= res[res.length - 1][1]) res[res.length - 1][1] = Math.max(res[res.length - 1][1], e);\n        else res.push([s, e]);\n    }\n    return res;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst lines = L(__input); const n1 = Number(lines[0]); const intervals = [];\n      for (let i = 0; i < n1; i++) intervals.push(N(lines[i + 1]));\n      console.log(mergeIntervals(intervals).map(arrJoin).join('\\n'));\n"
+      }
+    ]
+  },
+  {
+    "title": "Insert Interval",
+    "description": "Given a set of non-overlapping intervals and a new interval, insert the new interval and merge as necessary.",
+    "difficulty": "medium",
+    "tags": "merge-intervals",
+    "visibleTestCases": [
+      {
+        "input": "2\n1 3\n6 9\n2 5",
+        "output": "1 5\n6 9",
+        "explanation": "[1,3] merges with [2,5]"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "2\n1 2\n5 7\n3 4",
+        "output": "1 2\n3 4\n5 7"
+      },
+      {
+        "input": "2\n1 5\n6 8\n2 7",
+        "output": "1 8"
+      },
+      {
+        "input": "0\n1 5",
+        "output": "1 5"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function insertInterval(intervals, newInterval) {\n    // Write your code here\n    return [];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst lines = L(__input); const n1 = Number(lines[0]); const intervals = [];\n      for (let i = 0; i < n1; i++) intervals.push(N(lines[i + 1]));\n      const newInterval = N(lines[n1 + 1]);\n      console.log(insertInterval(intervals, newInterval).map(arrJoin).join('\\n'));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function insertInterval(intervals, newInterval) {\n    const res = [];\n    let [ns, ne] = newInterval;\n    let i = 0;\n    const n = intervals.length;\n    while (i < n && intervals[i][1] < ns) res.push(intervals[i++]);\n    while (i < n && intervals[i][0] <= ne) { ns = Math.min(ns, intervals[i][0]); ne = Math.max(ne, intervals[i][1]); i++; }\n    res.push([ns, ne]);\n    while (i < n) res.push(intervals[i++]);\n    return res;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst lines = L(__input); const n1 = Number(lines[0]); const intervals = [];\n      for (let i = 0; i < n1; i++) intervals.push(N(lines[i + 1]));\n      const newInterval = N(lines[n1 + 1]);\n      console.log(insertInterval(intervals, newInterval).map(arrJoin).join('\\n'));\n"
+      }
+    ]
+  },
+  {
+    "title": "Intervals Intersection",
+    "description": "Given two lists of closed intervals, each sorted and disjoint within its own list, return the intersection of the two lists.",
+    "difficulty": "medium",
+    "tags": "merge-intervals",
+    "visibleTestCases": [
+      {
+        "input": "3\n1 3\n5 6\n7 9\n3\n2 3\n5 7\n8 10",
+        "output": "2 3\n5 6\n7 7\n8 9",
+        "explanation": "Pairwise overlaps"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n1 3\n1\n4 5",
+        "output": "-1"
+      },
+      {
+        "input": "2\n1 5\n10 14\n2\n2 6\n8 10",
+        "output": "2 5\n10 10"
+      },
+      {
+        "input": "1\n1 10\n2\n2 3\n4 5",
+        "output": "2 3\n4 5"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function intervalIntersection(a, b) {\n    // Write your code here\n    return [];\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst lines = L(__input); const n1 = Number(lines[0]); const a = [];\n      for (let i = 0; i < n1; i++) a.push(N(lines[i + 1]));\n      const m = Number(lines[n1 + 1]); const b = [];\n      for (let i = 0; i < m; i++) b.push(N(lines[n1 + 2 + i]));\n      const ans = intervalIntersection(a, b);\n      console.log(ans.length === 0 ? '-1' : ans.map(arrJoin).join('\\n'));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function intervalIntersection(a, b) {\n    const res = [];\n    let i = 0, j = 0;\n    while (i < a.length && j < b.length) {\n        const lo = Math.max(a[i][0], b[j][0]);\n        const hi = Math.min(a[i][1], b[j][1]);\n        if (lo <= hi) res.push([lo, hi]);\n        if (a[i][1] < b[j][1]) i++; else j++;\n    }\n    return res;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst lines = L(__input); const n1 = Number(lines[0]); const a = [];\n      for (let i = 0; i < n1; i++) a.push(N(lines[i + 1]));\n      const m = Number(lines[n1 + 1]); const b = [];\n      for (let i = 0; i < m; i++) b.push(N(lines[n1 + 2 + i]));\n      const ans = intervalIntersection(a, b);\n      console.log(ans.length === 0 ? '-1' : ans.map(arrJoin).join('\\n'));\n"
+      }
+    ]
+  },
+  {
+    "title": "Overlapping Intervals",
+    "description": "Given a collection of intervals, determine whether any two intervals overlap.",
+    "difficulty": "medium",
+    "tags": "merge-intervals",
+    "visibleTestCases": [
+      {
+        "input": "3\n1 4\n2 5\n7 9",
+        "output": "true",
+        "explanation": "[1,4] and [2,5] overlap"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "3\n1 2\n3 4\n5 6",
+        "output": "false"
+      },
+      {
+        "input": "2\n1 10\n2 3",
+        "output": "true"
+      },
+      {
+        "input": "1\n5 5",
+        "output": "false"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function hasOverlap(intervals) {\n    // Write your code here\n    return false;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst lines = L(__input); const n1 = Number(lines[0]); const intervals = [];\n      for (let i = 0; i < n1; i++) intervals.push(N(lines[i + 1]));\n      console.log(boolStr(hasOverlap(intervals)));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function hasOverlap(intervals) {\n    const arr = [...intervals].sort((a, b) => a[0] - b[0]);\n    for (let i = 1; i < arr.length; i++) if (arr[i][0] < arr[i - 1][1]) return true;\n    return false;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst lines = L(__input); const n1 = Number(lines[0]); const intervals = [];\n      for (let i = 0; i < n1; i++) intervals.push(N(lines[i + 1]));\n      console.log(boolStr(hasOverlap(intervals)));\n"
+      }
+    ]
+  },
+  {
+    "title": "Minimum Meeting Rooms",
+    "description": "Given an array of meeting time intervals, find the minimum number of conference rooms required.",
+    "difficulty": "hard",
+    "tags": "merge-intervals",
+    "visibleTestCases": [
+      {
+        "input": "3\n1 4\n2 5\n7 9",
+        "output": "2",
+        "explanation": "[1,4] and [2,5] overlap, needing 2 rooms"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n1 2",
+        "output": "1"
+      },
+      {
+        "input": "3\n1 2\n2 3\n3 4",
+        "output": "1"
+      },
+      {
+        "input": "4\n1 5\n2 6\n4 8\n9 10",
+        "output": "3"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function minMeetingRooms(intervals) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst lines = L(__input); const n1 = Number(lines[0]); const intervals = [];\n      for (let i = 0; i < n1; i++) intervals.push(N(lines[i + 1]));\n      console.log(String(minMeetingRooms(intervals)));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function minMeetingRooms(intervals) {\n    const starts = intervals.map((x) => x[0]).sort((a, b) => a - b);\n    const ends = intervals.map((x) => x[1]).sort((a, b) => a - b);\n    let rooms = 0, best = 0, i = 0, j = 0;\n    while (i < starts.length) {\n        if (starts[i] < ends[j]) { rooms++; i++; best = Math.max(best, rooms); }\n        else { rooms--; j++; }\n    }\n    return best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst lines = L(__input); const n1 = Number(lines[0]); const intervals = [];\n      for (let i = 0; i < n1; i++) intervals.push(N(lines[i + 1]));\n      console.log(String(minMeetingRooms(intervals)));\n"
+      }
+    ]
+  },
+  {
+    "title": "Maximum CPU Load",
+    "description": "Given jobs with a start time, end time, and CPU load, find the maximum CPU load at any time when overlapping jobs are running.",
+    "difficulty": "hard",
+    "tags": "merge-intervals",
+    "visibleTestCases": [
+      {
+        "input": "3\n1 4 3\n2 5 4\n7 9 6",
+        "output": "7",
+        "explanation": "Jobs 1 and 2 overlap: 3+4=7"
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "1\n1 5 10",
+        "output": "10"
+      },
+      {
+        "input": "3\n1 2 3\n2 3 4\n3 4 5",
+        "output": "5"
+      },
+      {
+        "input": "4\n1 4 2\n2 6 4\n5 7 3\n6 8 1",
+        "output": "7"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "javascript",
+        "initialCode": "function maxCPULoad(jobs) {\n    // Write your code here\n    return 0;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst lines = L(__input); const n1 = Number(lines[0]); const jobs = [];\n      for (let i = 0; i < n1; i++) jobs.push(N(lines[i + 1]));\n      console.log(String(maxCPULoad(jobs)));\n"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "javascript",
+        "completeCode": "function maxCPULoad(jobs) {\n    const events = [];\n    for (const [s, e, load] of jobs) { events.push([s, load]); events.push([e, -load]); }\n    events.sort((a, b) => a[0] - b[0] || a[1] - b[1]);\n    let cur = 0, best = 0;\n    for (const [, delta] of events) { cur += delta; best = Math.max(best, cur); }\n    return best;\n}\n\nconst N = (t) => t.trim().split(/\\s+/).filter(Boolean).map(Number);\nconst L = (t) => t.split('\\n').map((l) => l.trim());\nconst arrJoin = (a) => a.join(' ');\nconst boolStr = (b) => (b ? 'true' : 'false');\n\nconst __input = require('fs').readFileSync(0, 'utf8');\nconst lines = L(__input); const n1 = Number(lines[0]); const jobs = [];\n      for (let i = 0; i < n1; i++) jobs.push(N(lines[i + 1]));\n      console.log(String(maxCPULoad(jobs)));\n"
+      }
+    ]
+  }
+]
