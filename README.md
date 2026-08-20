@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="frontend/public/favicon.svg" alt="CampusCode Icon" width="96" height="96" style="border-radius: 20px;" />
+  <img src=".github/logo.svg" alt="CampusCode Logo" width="96" height="96" style="border-radius: 20px;" />
 </p>
 
 <h1 align="center">CampusCode</h1>
