@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 import { Eye, EyeOff, FileText, Plus, ShieldCheck, Code2, X } from "lucide-react";
 
 const LANGUAGES = ["c++", "java", "javascript"];
-const TAGS = ["arrays", "strings", "linked-lists", "trees", "graphs", "dynamic-programming", "greedy", "backtracking"];
+const TAGS = [
+    "arrays", "strings", "linked-lists", "trees", "graphs", "dynamic-programming", "greedy", "backtracking",
+    "two-pointers", "fast-slow-pointers", "sliding-window", "kadane", "prefix-sum", "merge-intervals",
+];
 
 const emptyVisibleCase = { input: "", output: "", explanation: "" };
 const emptyHiddenCase = { input: "", output: "" };
