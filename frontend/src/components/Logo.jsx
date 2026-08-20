@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-// Graduation cap whose tassel doubles as a ">" code chevron — campus + code.
+// "CM" monogram on the brand gradient.
 const Logo = ({ size = 24, className = "" }) => {
     const gradientId = useId();
 
@@ -21,16 +21,19 @@ const Logo = ({ size = 24, className = "" }) => {
                 </linearGradient>
             </defs>
             <rect width="100" height="100" rx="24" fill={`url(#${gradientId})`} />
-            <polygon points="50,20 82,35 50,50 18,35" fill="#ffffff" />
-            <path d="M32,38 L68,38 L62,54 Q50,58 38,54 Z" fill="#ffffff" fillOpacity="0.88" />
-            <polyline
-                points="44,53 60,62 44,71"
-                fill="none"
-                stroke="#ffffff"
-                strokeWidth="7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
+            <text
+                x="50"
+                y="54"
+                textAnchor="middle"
+                dominantBaseline="central"
+                fontFamily="Arial, Helvetica, sans-serif"
+                fontWeight="800"
+                fontSize="40"
+                letterSpacing="-2"
+                fill="#ffffff"
+            >
+                CM
+            </text>
         </svg>
     );
 };

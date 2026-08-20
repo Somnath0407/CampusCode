@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Sora", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
 @plugin "daisyui" {
   themes: leetcode-dark --default --prefersdark, leetcode-light;
 }
@@ -85,6 +91,12 @@ body {
     radial-gradient(circle at 100% 20%, color-mix(in oklab, var(--color-accent) 6%, transparent) 0%, transparent 40%);
   background-attachment: fixed;
   color: var(--color-base-content);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
 .difficulty-easy { color: var(--color-success); }
