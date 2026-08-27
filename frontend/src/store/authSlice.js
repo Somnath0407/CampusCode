@@ -1,14 +1,16 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosClient from "../api/axiosClient";
+import { getToken, setToken, clearToken } from "../api/tokenStorage";
 
 const extractError = (err) =>
     err?.response?.data?.message || err?.response?.data || err?.message || "Something went wrong";
 
 export const registerUser = createAsyncThunk("auth/register", async (payload, { rejectWithValue }) => {
     try {
-        await axiosClient.post("/user/register", payload);
-        const { data } = await axiosClient.get("/user/profile");
-        return data;
+        const { data } = await axiosClient.post("/user/register", payload);
+        setToken(data.token);
+        const { data: profile } = await axiosClient.get("/user/profile");
+        return profile;
     } catch (err) {
         return rejectWithValue(extractError(err));
     }
@@ -16,9 +18,10 @@ export const registerUser = createAsyncThunk("auth/register", async (payload, { 
 
 export const loginUser = createAsyncThunk("auth/login", async (payload, { rejectWithValue }) => {
     try {
-        await axiosClient.post("/user/login", payload);
-        const { data } = await axiosClient.get("/user/profile");
-        return data;
+        const { data } = await axiosClient.post("/user/login", payload);
+        setToken(data.token);
+        const { data: profile } = await axiosClient.get("/user/profile");
+        return profile;
     } catch (err) {
         return rejectWithValue(extractError(err));
     }
@@ -30,10 +33,17 @@ export const logoutUser = createAsyncThunk("auth/logout", async (_, { rejectWith
         return null;
     } catch (err) {
         return rejectWithValue(extractError(err));
+    } finally {
+        // Always clear the local session, even if the server-side blocklist call failed —
+        // the user shouldn't be stuck "logged in" in this tab either way.
+        clearToken();
     }
 });
 
 export const checkAuth = createAsyncThunk("auth/check", async (_, { rejectWithValue }) => {
+    if (!getToken()) {
+        return rejectWithValue(null);
+    }
     try {
         const { data } = await axiosClient.get("/user/profile");
         return data;
@@ -79,6 +89,10 @@ const authSlice = createSlice({
                 state.isAuthenticated = false;
             })
             .addCase(logoutUser.fulfilled, (state) => {
+                state.user = null;
+                state.isAuthenticated = false;
+            })
+            .addCase(logoutUser.rejected, (state) => {
                 state.user = null;
                 state.isAuthenticated = false;
             })

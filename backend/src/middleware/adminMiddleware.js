@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
 const user = require('../models/user');
 const redisClient = require('../config/redis');
+const { getBearerToken } = require('../utils/auth');
 
 const adminMiddleware = async (req, res, next) => {
     try{
-        const {token}= req.cookies;
+        const token = getBearerToken(req);
         if(!token){
             throw new Error("Unauthorized");
         }

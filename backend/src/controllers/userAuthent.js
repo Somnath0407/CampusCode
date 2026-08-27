@@ -3,6 +3,7 @@ const validate = require("../utils/validator");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const redisClient = require("../config/redis");
+const { getBearerToken } = require("../utils/auth");
 
 const register = async (req, res) => {
 
@@ -18,8 +19,7 @@ const register = async (req, res) => {
         const user = await User.create(req.body);
 
         const token = jwt.sign({_id:user._id, email:email ,role:'user'}, process.env.JWT_SECRET, { expiresIn: 60*60 });
-        res.cookie('token',token,{maxAge: 60*60*1000});
-        res.status(201).send("User Registered Successfully");
+        res.status(201).json({ message: "User Registered Successfully", token });
 
     }
     catch(err){
@@ -47,8 +47,7 @@ const login = async (req, res) => {
             throw new Error("Invalid Credentials");
         }
         const token = jwt.sign({_id:user._id, email:email ,role:user.role}, process.env.JWT_SECRET, { expiresIn: 60*60 });
-        res.cookie('token',token,{maxAge: 60*60*1000});
-        res.status(200).send("User Logged In Successfully");
+        res.status(200).json({ message: "User Logged In Successfully", token });
     }
     catch(err){
         res.status(401).send("Error:"+err);
@@ -57,13 +56,11 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
     try{
-        const {token} = req.cookies;
+        const token = getBearerToken(req);
         const payload=jwt.decode(token);
         await redisClient.set(`token:${token}`,  "Blocked");
         await redisClient.expire(`token:${token}`, payload.exp); //Token ko 1 hour ke liye block kar dena
         //Token add kar dung Redis ke blocklist
-        //Cookies ko clear kar dena .....
-        res.cookie("token",null,{expires: new Date(Date.now())});
         res.status(200).send("User Logged Out Successfully");
     }
     catch(err){
@@ -84,8 +81,7 @@ const adminRegister = async (req, res) => {
         const user = await User.create(req.body);
 
         const token = jwt.sign({_id:user._id, email:email ,role:user.role}, process.env.JWT_SECRET, { expiresIn: 60*60 });  //in this line i change role from User to user ***********
-        res.cookie('token',token,{maxAge: 60*60*1000});
-        res.status(201).send("User Registered Successfully");
+        res.status(201).json({ message: "User Registered Successfully", token });
 
     }
     catch(err){
