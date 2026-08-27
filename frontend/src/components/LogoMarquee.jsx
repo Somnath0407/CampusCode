@@ -22,17 +22,17 @@ const LogoMarquee = () => {
     const track = [...COMPANIES, ...COMPANIES];
 
     return (
-        <div className="border-y border-base-300 bg-base-200/40 py-10">
-            <div className="max-w-6xl mx-auto px-4 lg:px-8 text-center mb-7">
-                <h2 className="text-lg font-semibold">Delivering job-ready developers</h2>
-                <p className="text-sm text-base-content/50 mt-1">Companies where our community's developers are working</p>
+        <div className="border-y border-base-300 bg-base-200/30 py-12 sm:py-14">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
+                <h2 className="text-base font-semibold">Delivering job-ready developers</h2>
+                <p className="text-sm text-base-content/50 mt-1.5">Companies where our community's developers are working</p>
             </div>
             <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
                 <div className="marquee-track flex w-max items-center gap-16">
                     {track.map((c, i) => (
                         <span
                             key={i}
-                            className="shrink-0 flex items-center text-2xl font-bold tracking-tight opacity-90"
+                            className="shrink-0 flex items-center text-xl sm:text-2xl font-bold tracking-tight opacity-80 hover:opacity-100 transition-opacity"
                             style={{ color: c.color }}
                         >
                             {c.name === 'Microsoft' && <MicrosoftMark />}
