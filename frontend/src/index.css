@@ -127,6 +127,20 @@ h1, h2, h3, h4, h5, h6, .font-display {
 .scrollbar-thin::-webkit-scrollbar-thumb { background: var(--color-base-300); border-radius: 999px; }
 .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
 
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.bg-grid-faint {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, var(--color-base-content) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--color-base-content) 5%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black 40%, transparent 90%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black 40%, transparent 90%);
+}
+
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
