@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import toast from "react-hot-toast";
-import { Play, Send, CheckCircle2, XCircle } from "lucide-react";
+import { Play, Send, CheckCircle2, XCircle, History } from "lucide-react";
 import axiosClient from "../api/axiosClient";
 import Navbar from "../components/Navbar";
 import DifficultyBadge from "../components/DifficultyBadge";
@@ -13,6 +13,7 @@ const LANGUAGE_META = {
     "cpp": { label: "C++", monaco: "cpp" },
     "java": { label: "Java", monaco: "java" },
     "javascript": { label: "JavaScript", monaco: "javascript" },
+    "sql": { label: "SQL", monaco: "sql" },
 };
 
 const ProblemSolve = () => {
@@ -28,19 +29,44 @@ const ProblemSolve = () => {
     const [runResult, setRunResult] = useState(null);
     const [submitResult, setSubmitResult] = useState(null);
     const [submissions, setSubmissions] = useState([]);
+    const [restoredLanguages, setRestoredLanguages] = useState(new Set());
 
     useEffect(() => {
         const fetchProblem = async () => {
             try {
-                const { data } = await axiosClient.get(`/problem/problemById/${id}`);
-                setProblem(data);
+                const [{ data: problemData }, pastSubmissions] = await Promise.all([
+                    axiosClient.get(`/problem/problemById/${id}`),
+                    axiosClient.get(`/submission/${id}`)
+                        .then(({ data }) => data)
+                        .catch(() => []),
+                ]);
+                setProblem(problemData);
+                setSubmissions(pastSubmissions);
+
                 const initialCode = {};
-                (data.startCode || []).forEach((sc) => {
+                (problemData.startCode || []).forEach((sc) => {
                     initialCode[sc.language.toLowerCase()] = sc.initialCode;
                 });
+
+                // pastSubmissions is sorted newest-first, so the first submission
+                // seen per language is that language's most recent saved code —
+                // reopening a problem should pick up where you left off, not
+                // reset to the blank starter template.
+                const restored = new Set();
+                pastSubmissions.forEach((sub) => {
+                    const lang = sub.language.toLowerCase();
+                    if (!restored.has(lang)) {
+                        initialCode[lang] = sub.code;
+                        restored.add(lang);
+                    }
+                });
+                setRestoredLanguages(restored);
                 setCodeByLanguage(initialCode);
-                const firstLang = data.startCode?.[0]?.language?.toLowerCase();
-                if (firstLang) setLanguage(firstLang);
+
+                const lastLang = pastSubmissions[0]?.language?.toLowerCase();
+                const firstLang = problemData.startCode?.[0]?.language?.toLowerCase();
+                if (lastLang && initialCode[lastLang] !== undefined) setLanguage(lastLang);
+                else if (firstLang) setLanguage(firstLang);
             } catch (err) {
                 toast.error("Failed to load problem");
             } finally {
@@ -173,11 +199,11 @@ const ProblemSolve = () => {
                                 {problem.visibleTestCases?.map((tc, i) => (
                                     <div key={i} className="mt-5">
                                         <p className="font-semibold mb-1">Example {i + 1}:</p>
-                                        <div className="bg-base-200 rounded-box p-3 text-sm font-mono border border-base-300">
-                                            <p><span className="text-base-content/50">Input:</span> {tc.input}</p>
-                                            <p><span className="text-base-content/50">Output:</span> {tc.output}</p>
+                                        <div className="bg-base-200 rounded-box p-3 text-sm font-mono border border-base-300 wrap-break-word">
+                                            <p className="whitespace-pre-wrap"><span className="text-base-content/50">Input:</span> {tc.input}</p>
+                                            <p className="whitespace-pre-wrap"><span className="text-base-content/50">Output:</span> {tc.output}</p>
                                             {tc.explanation && (
-                                                <p><span className="text-base-content/50">Explanation:</span> {tc.explanation}</p>
+                                                <p className="whitespace-pre-wrap"><span className="text-base-content/50">Explanation:</span> {tc.explanation}</p>
                                             )}
                                         </div>
                                     </div>
@@ -198,18 +224,25 @@ const ProblemSolve = () => {
                 {/* Right: editor */}
                 <div className="lg:w-1/2 w-full flex flex-col overflow-hidden">
                     <div className="flex items-center justify-between px-4 py-2 bg-base-200 border-b border-base-300 shrink-0">
-                        <select
-                            className="select select-sm select-bordered w-36"
-                            value={language}
-                            onChange={(e) => setLanguage(e.target.value)}
-                        >
-                            {availableLanguages.map((lang) => (
-                                <option key={lang} value={lang}>
-                                    {LANGUAGE_META[lang]?.label || lang}
-                                </option>
-                            ))}
-                        </select>
-                        <div className="flex gap-2">
+                        <div className="flex items-center gap-3 min-w-0">
+                            <select
+                                className="select select-sm select-bordered w-36 shrink-0"
+                                value={language}
+                                onChange={(e) => setLanguage(e.target.value)}
+                            >
+                                {availableLanguages.map((lang) => (
+                                    <option key={lang} value={lang}>
+                                        {LANGUAGE_META[lang]?.label || lang}
+                                    </option>
+                                ))}
+                            </select>
+                            {restoredLanguages.has(language) && (
+                                <span className="hidden sm:flex items-center gap-1.5 text-xs text-base-content/50 truncate">
+                                    <History size={13} className="shrink-0" /> Restored from your last submission
+                                </span>
+                            )}
+                        </div>
+                        <div className="flex gap-2 shrink-0">
                             <button className="btn btn-sm btn-ghost border border-base-300 gap-1.5" onClick={handleRun} disabled={running}>
                                 {running ? <span className="loading loading-spinner loading-xs"></span> : <><Play size={14} /> Run</>}
                             </button>
@@ -230,6 +263,10 @@ const ProblemSolve = () => {
                                 minimap: { enabled: false },
                                 automaticLayout: true,
                                 scrollBeyondLastLine: false,
+                                wordWrap: "on",
+                                wrappingIndent: "indent",
+                                wrappingStrategy: "advanced",
+                                scrollbar: { horizontal: "hidden" },
                             }}
                         />
                     </div>
@@ -258,7 +295,7 @@ const ResultPanel = ({ runResult, submitResult }) => {
                 <p className="text-sm text-base-content/70 mb-1">Runtime: {submitResult.runtime}s</p>
                 <p className="text-sm text-base-content/70 mb-3">Memory: {submitResult.memory} KB</p>
                 {submitResult.errorMessage && (
-                    <pre className="bg-base-200 border border-base-300 rounded-box p-3 text-xs overflow-x-auto whitespace-pre-wrap">
+                    <pre className="bg-base-200 border border-base-300 rounded-box p-3 text-xs whitespace-pre-wrap wrap-break-word">
                         {submitResult.errorMessage}
                     </pre>
                 )}
@@ -273,15 +310,15 @@ const ResultPanel = ({ runResult, submitResult }) => {
             </h2>
             <div className="flex flex-col gap-3">
                 {runResult.results.map((r, i) => (
-                    <div key={i} className={`rounded-box border p-3 text-sm ${r.passed ? "border-success/40 bg-success/10" : "border-error/40 bg-error/10"}`}>
+                    <div key={i} className={`rounded-box border p-3 text-sm wrap-break-word ${r.passed ? "border-success/40 bg-success/10" : "border-error/40 bg-error/10"}`}>
                         <p className="font-semibold mb-1">
                             Test case {i + 1}: {r.passed ? <span className="text-success">Passed</span> : <span className="text-error">Failed</span>}
                         </p>
-                        <p><span className="text-base-content/50">Input:</span> {r.input}</p>
-                        <p><span className="text-base-content/50">Expected:</span> {r.expectedOutput}</p>
-                        <p><span className="text-base-content/50">Output:</span> {r.stdout ?? "-"}</p>
+                        <p className="whitespace-pre-wrap"><span className="text-base-content/50">Input:</span> {r.input}</p>
+                        <p className="whitespace-pre-wrap"><span className="text-base-content/50">Expected:</span> {r.expectedOutput}</p>
+                        <p className="whitespace-pre-wrap"><span className="text-base-content/50">Output:</span> {r.stdout ?? "-"}</p>
                         {(r.stderr || r.compileOutput) && (
-                            <pre className="mt-1 text-xs whitespace-pre-wrap text-error">{r.stderr || r.compileOutput}</pre>
+                            <pre className="mt-1 text-xs whitespace-pre-wrap wrap-break-word text-error">{r.stderr || r.compileOutput}</pre>
                         )}
                     </div>
                 ))}

@@ -2,10 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import { CheckCircle2, ListChecks, Search, Target } from "lucide-react";
+import { CheckCircle2, ListChecks, Search, Target, Code2, Database } from "lucide-react";
 import axiosClient from "../api/axiosClient";
 import Navbar from "../components/Navbar";
 import DifficultyBadge from "../components/DifficultyBadge";
+import ActivityHeatmap from "../components/ActivityHeatmap";
 
 const DIFFICULTIES = ["all", "easy", "medium", "hard"];
 
@@ -16,6 +17,8 @@ const UserDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
     const [difficultyFilter, setDifficultyFilter] = useState("all");
+    const [solvedOnly, setSolvedOnly] = useState(false);
+    const [category, setCategory] = useState("dsa");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -39,19 +42,34 @@ const UserDashboard = () => {
 
     const solvedSet = useMemo(() => new Set((solved || []).map(String)), [solved]);
 
+    // SQL problems live in their own section of the dashboard, tracked with
+    // their own Total/Solved/Progress stats — switching categories is meant
+    // to feel like moving to a distinct problem set, not just another filter.
+    const categoryProblems = useMemo(
+        () => problems.filter((p) => (category === "sql" ? p.tags === "sql" : p.tags !== "sql")),
+        [problems, category]
+    );
+
     const filteredProblems = useMemo(() => {
-        return problems.filter((p) => {
+        return categoryProblems.filter((p) => {
             const matchesDifficulty = difficultyFilter === "all" || p.difficulty === difficultyFilter;
             const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase());
-            return matchesDifficulty && matchesSearch;
+            const matchesSolved = !solvedOnly || solvedSet.has(String(p._id));
+            return matchesDifficulty && matchesSearch && matchesSolved;
         });
-    }, [problems, difficultyFilter, search]);
+    }, [categoryProblems, difficultyFilter, search, solvedOnly, solvedSet]);
 
-    const solvedCount = problems.filter((p) => solvedSet.has(String(p._id))).length;
-    const easyTotal = problems.filter((p) => p.difficulty === "easy").length;
-    const mediumTotal = problems.filter((p) => p.difficulty === "medium").length;
-    const hardTotal = problems.filter((p) => p.difficulty === "hard").length;
-    const progressPct = problems.length ? Math.round((solvedCount / problems.length) * 100) : 0;
+    const solvedCount = categoryProblems.filter((p) => solvedSet.has(String(p._id))).length;
+    const easyTotal = categoryProblems.filter((p) => p.difficulty === "easy").length;
+    const mediumTotal = categoryProblems.filter((p) => p.difficulty === "medium").length;
+    const hardTotal = categoryProblems.filter((p) => p.difficulty === "hard").length;
+    const progressPct = categoryProblems.length ? Math.round((solvedCount / categoryProblems.length) * 100) : 0;
+
+    const switchCategory = (next) => {
+        setCategory(next);
+        setDifficultyFilter("all");
+        setSolvedOnly(false);
+    };
 
     return (
         <div className="min-h-screen bg-base-100">
@@ -62,19 +80,41 @@ const UserDashboard = () => {
                     <p className="text-base-content/60 mt-1">Keep the streak going — pick a problem below.</p>
                 </div>
 
+                <div className="join mb-6">
+                    <button
+                        type="button"
+                        onClick={() => switchCategory("dsa")}
+                        className={`btn join-item gap-2 ${category === "dsa" ? "btn-primary" : "btn-ghost border border-base-300"}`}
+                    >
+                        <Code2 size={16} /> DSA Problems
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => switchCategory("sql")}
+                        className={`btn join-item gap-2 ${category === "sql" ? "btn-primary" : "btn-ghost border border-base-300"}`}
+                    >
+                        <Database size={16} /> SQL Problems
+                    </button>
+                </div>
+
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
                     <div className="stat-card p-4">
                         <div className="flex items-center gap-2 text-base-content/50 text-xs font-medium uppercase tracking-wide mb-2">
                             <ListChecks size={14} /> Total
                         </div>
-                        <p className="text-2xl font-bold">{problems.length}</p>
+                        <p className="text-2xl font-bold">{categoryProblems.length}</p>
                     </div>
-                    <div className="stat-card p-4">
+                    <button
+                        type="button"
+                        onClick={() => setSolvedOnly((v) => !v)}
+                        title={solvedOnly ? "Showing solved problems only — click to clear" : "Show solved problems only"}
+                        className={`stat-card p-4 text-left cursor-pointer ${solvedOnly ? "ring-2 ring-success" : ""}`}
+                    >
                         <div className="flex items-center gap-2 text-success text-xs font-medium uppercase tracking-wide mb-2">
                             <CheckCircle2 size={14} /> Solved
                         </div>
                         <p className="text-2xl font-bold text-success">{solvedCount}</p>
-                    </div>
+                    </button>
                     <div className="stat-card p-4">
                         <div className="flex items-center gap-2 text-primary text-xs font-medium uppercase tracking-wide mb-2">
                             <Target size={14} /> Progress
@@ -90,6 +130,8 @@ const UserDashboard = () => {
                         </div>
                     </div>
                 </div>
+
+                <ActivityHeatmap />
 
                 <div className="flex flex-col sm:flex-row gap-3 mb-4">
                     <label className="input input-bordered flex items-center gap-2 w-full sm:w-64">
@@ -113,6 +155,15 @@ const UserDashboard = () => {
                             </button>
                         ))}
                     </div>
+                    {solvedOnly && (
+                        <button
+                            type="button"
+                            onClick={() => setSolvedOnly(false)}
+                            className="btn btn-sm btn-ghost text-success gap-1.5 self-start sm:self-auto"
+                        >
+                            <CheckCircle2 size={14} /> Solved only ✕
+                        </button>
+                    )}
                 </div>
 
                 <div className="overflow-x-auto rounded-box border border-base-300 shadow-sm">
