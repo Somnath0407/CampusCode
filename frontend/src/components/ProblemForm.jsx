@@ -2,11 +2,18 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Eye, EyeOff, FileText, Plus, ShieldCheck, Code2, X } from "lucide-react";
 
-const LANGUAGES = ["c++", "java", "javascript"];
+const DSA_LANGUAGES = ["c++", "java", "javascript"];
+const SQL_LANGUAGES = ["sql"];
 const TAGS = [
     "arrays", "strings", "linked-lists", "trees", "graphs", "dynamic-programming", "greedy", "backtracking",
     "two-pointers", "fast-slow-pointers", "sliding-window", "kadane", "prefix-sum", "merge-intervals",
+    "sql",
 ];
+
+// SQL problems are single-language (a query, not an algorithm implementable
+// in any of C++/Java/JS), so the Starter Code / Reference Solution tabs need
+// to switch to just "sql" for that tag instead of the usual three languages.
+const languagesForTag = (tag) => (tag === "sql" ? SQL_LANGUAGES : DSA_LANGUAGES);
 
 const emptyVisibleCase = { input: "", output: "", explanation: "" };
 const emptyHiddenCase = { input: "", output: "" };
@@ -18,8 +25,8 @@ const buildEmptyForm = () => ({
     tags: TAGS[0],
     visibleTestCases: [{ ...emptyVisibleCase }],
     hiddenTestCases: [{ ...emptyHiddenCase }],
-    startCode: LANGUAGES.map((language) => ({ language, initialCode: "" })),
-    referenceSolution: LANGUAGES.map((language) => ({ language, completeCode: "" })),
+    startCode: DSA_LANGUAGES.map((language) => ({ language, initialCode: "" })),
+    referenceSolution: DSA_LANGUAGES.map((language) => ({ language, completeCode: "" })),
 });
 
 const SECTION_COLORS = {
@@ -83,6 +90,26 @@ const ProblemForm = ({ initialValues, onSubmit, submitLabel, submitting }) => {
 
     const updateField = (field, value) => setForm((prev) => ({ ...prev, [field]: value }));
 
+    // Only rebuilds the language tabs when crossing the sql / non-sql
+    // boundary — switching between two DSA tags (e.g. arrays -> strings)
+    // leaves any already-typed C++/Java/JS code untouched.
+    const handleTagChange = (nextTag) => {
+        setForm((prev) => {
+            const wasSql = prev.tags === "sql";
+            const willBeSql = nextTag === "sql";
+            if (wasSql === willBeSql) {
+                return { ...prev, tags: nextTag };
+            }
+            const nextLanguages = languagesForTag(nextTag);
+            return {
+                ...prev,
+                tags: nextTag,
+                startCode: nextLanguages.map((language) => ({ language, initialCode: "" })),
+                referenceSolution: nextLanguages.map((language) => ({ language, completeCode: "" })),
+            };
+        });
+    };
+
     const updateArrayItem = (field, index, key, value) => {
         setForm((prev) => {
             const next = [...prev[field]];
@@ -135,7 +162,7 @@ const ProblemForm = ({ initialValues, onSubmit, submitLabel, submitting }) => {
                         <select
                             className="select select-bordered select-sm w-full max-w-xs capitalize"
                             value={form.tags}
-                            onChange={(e) => updateField("tags", e.target.value)}
+                            onChange={(e) => handleTagChange(e.target.value)}
                         >
                             {TAGS.map((t) => <option key={t} value={t}>{t}</option>)}
                         </select>
@@ -177,11 +204,11 @@ const ProblemForm = ({ initialValues, onSubmit, submitLabel, submitting }) => {
                                 )}
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                                <input className="input input-bordered input-sm" placeholder="Input"
-                                    value={tc.input} onChange={(e) => updateArrayItem("visibleTestCases", i, "input", e.target.value)} required />
-                                <input className="input input-bordered input-sm" placeholder="Output"
-                                    value={tc.output} onChange={(e) => updateArrayItem("visibleTestCases", i, "output", e.target.value)} required />
-                                <input className="input input-bordered input-sm" placeholder="Explanation"
+                                <textarea className="textarea textarea-bordered textarea-sm font-mono text-xs min-h-16" placeholder="Input"
+                                    value={tc.input} onChange={(e) => updateArrayItem("visibleTestCases", i, "input", e.target.value)} spellCheck={false} required />
+                                <textarea className="textarea textarea-bordered textarea-sm font-mono text-xs min-h-16" placeholder="Output"
+                                    value={tc.output} onChange={(e) => updateArrayItem("visibleTestCases", i, "output", e.target.value)} spellCheck={false} required />
+                                <textarea className="textarea textarea-bordered textarea-sm text-xs min-h-16" placeholder="Explanation"
                                     value={tc.explanation} onChange={(e) => updateArrayItem("visibleTestCases", i, "explanation", e.target.value)} required />
                             </div>
                         </div>
@@ -214,10 +241,10 @@ const ProblemForm = ({ initialValues, onSubmit, submitLabel, submitting }) => {
                                 )}
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                <input className="input input-bordered input-sm" placeholder="Input"
-                                    value={tc.input} onChange={(e) => updateArrayItem("hiddenTestCases", i, "input", e.target.value)} required />
-                                <input className="input input-bordered input-sm" placeholder="Output"
-                                    value={tc.output} onChange={(e) => updateArrayItem("hiddenTestCases", i, "output", e.target.value)} required />
+                                <textarea className="textarea textarea-bordered textarea-sm font-mono text-xs min-h-16" placeholder="Input"
+                                    value={tc.input} onChange={(e) => updateArrayItem("hiddenTestCases", i, "input", e.target.value)} spellCheck={false} required />
+                                <textarea className="textarea textarea-bordered textarea-sm font-mono text-xs min-h-16" placeholder="Output"
+                                    value={tc.output} onChange={(e) => updateArrayItem("hiddenTestCases", i, "output", e.target.value)} spellCheck={false} required />
                             </div>
                         </div>
                     ))}
@@ -226,6 +253,7 @@ const ProblemForm = ({ initialValues, onSubmit, submitLabel, submitting }) => {
 
             <Section icon={Code2} color="secondary" title="Starter Code" subtitle="Pre-filled in the editor for each language">
                 <LanguageCodeTabs
+                    key={form.startCode.map((s) => s.language).join(",")}
                     entries={form.startCode}
                     codeKey="initialCode"
                     minHeight="min-h-40"
@@ -240,6 +268,7 @@ const ProblemForm = ({ initialValues, onSubmit, submitLabel, submitting }) => {
                 subtitle="Must pass all visible test cases via Judge0 before saving"
             >
                 <LanguageCodeTabs
+                    key={form.referenceSolution.map((s) => s.language).join(",")}
                     entries={form.referenceSolution}
                     codeKey="completeCode"
                     minHeight="min-h-56"

@@ -35,7 +35,20 @@ const AdminUpdateProblem = () => {
             toast.success("Problem updated");
             navigate("/admin");
         } catch (err) {
-            toast.error(err?.response?.data?.message || "Failed to update problem");
+            const data = err?.response?.data;
+            const message = data?.message || "Failed to update problem";
+            // The backend already computes the real reason a reference solution
+            // failed (the SQL/compiler error or the exact mismatched output) in
+            // `data.error` — show it, not just the generic "failed" headline.
+            toast.error(
+                data?.error ? (
+                    <div>
+                        <p className="font-semibold">{message}</p>
+                        <pre className="text-xs whitespace-pre-wrap mt-1 max-w-xs">{data.error}</pre>
+                    </div>
+                ) : message,
+                { duration: 10000 }
+            );
         } finally {
             setSubmitting(false);
         }
