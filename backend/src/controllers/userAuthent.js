@@ -12,11 +12,17 @@ const register = async (req, res) => {
         //validate the data
         validate(req.body);
 
-        const {firstName, email, password} = req.body;
+        const {firstName, lastName, email, password, age} = req.body;
 
-        req.body.password = await bcrypt.hash(password, 10);
-        req.body.role = "user";
-        const user = await User.create(req.body);
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = await User.create({
+            firstName,
+            lastName,
+            email,
+            age,
+            password: hashedPassword,
+            role: "user",
+        });
 
         const token = jwt.sign({_id:user._id, email:email ,role:'user'}, process.env.JWT_SECRET, { expiresIn: 60*60 });
         res.status(201).json({ message: "User Registered Successfully", token });
@@ -31,10 +37,10 @@ const login = async (req, res) => {
 
     try{
         const {email, password} = req.body;
-        if(!email){
+        if(!email || typeof email !== "string"){
             throw new Error("Invalid Credentials");
         }
-        if(!password){
+        if(!password || typeof password !== "string"){
             throw new Error("Invalid Credentials");
         }
         const user = await User.findOne({email});
@@ -58,8 +64,11 @@ const logout = async (req, res) => {
     try{
         const token = getBearerToken(req);
         const payload=jwt.decode(token);
+        const ttlSeconds = payload.exp - Math.floor(Date.now() / 1000);
         await redisClient.set(`token:${token}`,  "Blocked");
-        await redisClient.expire(`token:${token}`, payload.exp); //Token ko 1 hour ke liye block kar dena
+        if (ttlSeconds > 0) {
+            await redisClient.expire(`token:${token}`, ttlSeconds); //Block the token only until it would have expired anyway
+        }
         //Token add kar dung Redis ke blocklist
         res.status(200).send("User Logged Out Successfully");
     }
@@ -75,10 +84,17 @@ const adminRegister = async (req, res) => {
         //validate the data
         validate(req.body);
 
-        const {firstName, email, password} = req.body;
+        const {firstName, lastName, email, password, age, role} = req.body;
 
-        req.body.password = await bcrypt.hash(password, 10);
-        const user = await User.create(req.body);
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = await User.create({
+            firstName,
+            lastName,
+            email,
+            age,
+            password: hashedPassword,
+            role: role === "admin" ? "admin" : "user",
+        });
 
         const token = jwt.sign({_id:user._id, email:email ,role:user.role}, process.env.JWT_SECRET, { expiresIn: 60*60 });  //in this line i change role from User to user ***********
         res.status(201).json({ message: "User Registered Successfully", token });

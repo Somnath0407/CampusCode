@@ -30,6 +30,8 @@ const createProblem = async (req, res) => {
             });
         }
 
+        const allTestCases = [...visibleTestCases, ...hiddenTestCases];
+
         for (const { language, completeCode } of referenceSolution) {
             const languageId = await getLanguageById(language);
 
@@ -39,7 +41,7 @@ const createProblem = async (req, res) => {
                 });
             }
 
-            const submissions = visibleTestCases.map(testcase => ({
+            const submissions = allTestCases.map(testcase => ({
                 ...buildJudge0Payload(language, completeCode, testcase.input),
                 language_id: languageId,
                 expected_output: testcase.output
@@ -118,10 +120,26 @@ const UpdateProblem =async (req, res) => {
         if(!id){
             return res.status(400).send("Missong Id Field");
         }
+        if (
+            !title ||
+            !description ||
+            !difficulty ||
+            !tags ||
+            !Array.isArray(visibleTestCases) ||
+            !Array.isArray(hiddenTestCases) ||
+            !Array.isArray(startCode) ||
+            !Array.isArray(referenceSolution)
+        ) {
+            return res.status(400).json({
+                message: "Invalid request body"
+            });
+        }
         const DsaProblem = await Problem.findById(id);
         if(!DsaProblem){
             return res.status(440).send("Problem Not Found");
         }
+
+        const allTestCases = [...visibleTestCases, ...hiddenTestCases];
 
         for (const { language, completeCode } of referenceSolution) {
             const languageId = await getLanguageById(language);
@@ -130,7 +148,7 @@ const UpdateProblem =async (req, res) => {
                     message: `Unsupported language: ${language}`
                 });
             }
-            const submissions = visibleTestCases.map(testcase => ({
+            const submissions = allTestCases.map(testcase => ({
                 ...buildJudge0Payload(language, completeCode, testcase.input),
                 language_id: languageId,
                 expected_output: testcase.output

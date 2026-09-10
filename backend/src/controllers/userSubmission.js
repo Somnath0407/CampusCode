@@ -112,7 +112,7 @@ const submitCode = async (req, res) => {
 
         for (const test of testResults) {
             const statusId = test.status_id ?? test.status?.id;
-            runtime += Number(test.time) || 0;
+            runtime = Math.max(runtime, Number(test.time) || 0);
             memory = Math.max(memory, Number(test.memory) || 0);
 
             if (statusId === 3) {

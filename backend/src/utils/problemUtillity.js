@@ -47,7 +47,7 @@ const submitBatch= async(submissions)=>{
 
     const options = {
     method: 'POST',
-    url: 'https://judge0-ce.p.rapidapi.com/submissions/batch',
+    url: `https://${process.env.JUDGE0_API_HOST}/submissions/batch`,
     params: {
         base64_encoded: 'true'
     },
@@ -75,47 +75,6 @@ async function fetchData() {
 }
 
 
-// const waiting =async(timer)=>{
-//     setTimeout(()=>{
-//         return 1;
-//     }, timer);
-// }
-
-// const submitToken = async(resultToken)=>{
-
-// const options = {
-//   method: 'GET',
-//   url: 'https://judge0-ce.p.rapidapi.com/submissions/batch',
-//   params: {
-//     tokens: resultToken.join(','),
-//     base64_encoded: 'true',
-//     fields: '*'
-//   },
-//   headers: {
-//     'x-rapidapi-host': 'judge0-ce.p.rapidapi.com'
-//   }
-// };
-
-// async function fetchData() {
-//   try {
-//     const response = await axios.request(options);
-//     return response.data;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-//     while(true){
-//     const result= await fetchData();
-//     const IsResultObtained=result.submissions.every((r)=>r.status_id>2);
-
-//     if(IsResultObtained){
-//         return result.submissions;
-//     }
-//     // if result is not obtained then we need to wait for some time and then call the API again
-//     await waiting(1000);
-//     }
-// }
-
 const waiting = (timer) => {
     return new Promise((resolve) => {
         setTimeout(() => {
@@ -130,7 +89,7 @@ const submitToken = async (resultToken) => {
 
     const options = {
         method: 'GET',
-        url: 'https://judge0-ce.p.rapidapi.com/submissions/batch',
+        url: `https://${process.env.JUDGE0_API_HOST}/submissions/batch`,
         params: {
             tokens: tokenString,
             base64_encoded: 'true',
