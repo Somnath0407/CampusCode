@@ -1,4 +1,4 @@
-const { getLanguageById, submitBatch, submitToken } = require("../utils/problemUtillity");
+const { getLanguageById, submitBatch, submitToken, buildJudge0Payload } = require("../utils/problemUtillity");
 const Problem = require("../models/problem");
 const Submission = require("../models/submission");
 const User = require("../models/user");
@@ -24,9 +24,8 @@ const runCode = async (req, res) => {
         }
 
         const submissions = problem.visibleTestCases.map(testcase => ({
-            source_code: code,
+            ...buildJudge0Payload(language, code, testcase.input),
             language_id: languageId,
-            stdin: testcase.input,
             expected_output: testcase.output,
         }));
 
@@ -62,7 +61,7 @@ const runCode = async (req, res) => {
             results,
         });
     } catch (err) {
-        res.status(500).send("Error:" + err);
+        res.status(500).json({ message: err.message || String(err) });
     }
 };
 
@@ -89,9 +88,8 @@ const submitCode = async (req, res) => {
         const allTestCases = [...problem.visibleTestCases, ...problem.hiddenTestCases];
 
         const submissions = allTestCases.map(testcase => ({
-            source_code: code,
+            ...buildJudge0Payload(language, code, testcase.input),
             language_id: languageId,
-            stdin: testcase.input,
             expected_output: testcase.output,
         }));
 
@@ -152,7 +150,7 @@ const submitCode = async (req, res) => {
             submissionId: submission._id,
         });
     } catch (err) {
-        res.status(500).send("Error:" + err);
+        res.status(500).json({ message: err.message || String(err) });
     }
 };
 
@@ -168,8 +166,40 @@ const getSubmissions = async (req, res) => {
         const submissions = await Submission.find({ userId, problemId }).sort({ createdAt: -1 });
         res.status(200).send(submissions);
     } catch (err) {
-        res.status(500).send("Error:" + err);
+        res.status(500).json({ message: err.message || String(err) });
     }
 };
 
-module.exports = { runCode, submitCode, getSubmissions };
+// Daily submission counts for one calendar year (defaults to the current
+// year), for the GitHub-style activity heatmap on the user dashboard.
+// Grouped in UTC so the calendar buckets line up with what the frontend
+// renders (see ActivityHeatmap.jsx), which also drives the year switcher.
+const getActivityHeatmap = async (req, res) => {
+    try {
+        const userId = req.result._id;
+        const currentYear = new Date().getUTCFullYear();
+        const year = Number.parseInt(req.query.year, 10) || currentYear;
+
+        const since = new Date(Date.UTC(year, 0, 1));
+        const until = new Date(Date.UTC(year + 1, 0, 1));
+
+        const grouped = await Submission.aggregate([
+            { $match: { userId, createdAt: { $gte: since, $lt: until } } },
+            {
+                $group: {
+                    _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+                    count: { $sum: 1 },
+                },
+            },
+        ]);
+
+        const days = grouped.map((g) => ({ date: g._id, count: g.count }));
+        const total = days.reduce((sum, d) => sum + d.count, 0);
+
+        res.status(200).json({ year, total, days });
+    } catch (err) {
+        res.status(500).json({ message: err.message || String(err) });
+    }
+};
+
+module.exports = { runCode, submitCode, getSubmissions, getActivityHeatmap };

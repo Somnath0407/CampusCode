@@ -1,4 +1,4 @@
-const { getLanguageById, submitBatch, submitToken } = require("../utils/problemUtillity");
+const { getLanguageById, submitBatch, submitToken, buildJudge0Payload } = require("../utils/problemUtillity");
 const Problem = require("../models/problem");
 const User = require("../models/user");
 
@@ -40,9 +40,8 @@ const createProblem = async (req, res) => {
             }
 
             const submissions = visibleTestCases.map(testcase => ({
-                source_code: completeCode,
+                ...buildJudge0Payload(language, completeCode, testcase.input),
                 language_id: languageId,
-                stdin: testcase.input,
                 expected_output: testcase.output
             }));
 
@@ -132,9 +131,8 @@ const UpdateProblem =async (req, res) => {
                 });
             }
             const submissions = visibleTestCases.map(testcase => ({
-                source_code: completeCode,
+                ...buildJudge0Payload(language, completeCode, testcase.input),
                 language_id: languageId,
-                stdin: testcase.input,
                 expected_output: testcase.output
             }));
             const submitResult = await submitBatch(submissions);
@@ -166,7 +164,7 @@ const UpdateProblem =async (req, res) => {
         const newProblem=await Problem.findByIdAndUpdate(id,{...req.body},{runValidators:true,new:true});
         res.status(200).send(newProblem);
     }catch(err){
-        res.status(400).send("Error:"+err);
+        res.status(400).json({ message: err.message || String(err) });
     }
 }
 

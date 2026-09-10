@@ -20,6 +20,7 @@ const problemSchema = new Schema({
         enum: [
             'arrays', 'strings', 'linked-lists', 'trees', 'graphs', 'dynamic-programming', 'greedy', 'backtracking',
             'two-pointers', 'fast-slow-pointers', 'sliding-window', 'kadane', 'prefix-sum', 'merge-intervals',
+            'sql',
         ],
         required: true,
     },
@@ -29,9 +30,12 @@ const problemSchema = new Schema({
                 type: String,
                 required: true,
             },
+            // Not `required: true` — Mongoose's String required-check also
+            // rejects "", but an empty string is a legitimate expected output
+            // for SQL problems (a query that correctly produces zero rows).
             output: {
                 type: String,
-                required: true,
+                default: "",
             },
             explanation: {
                 type: String,
@@ -45,9 +49,12 @@ const problemSchema = new Schema({
                 type: String,
                 required: true,
             },
+            // Not `required: true` — Mongoose's String required-check also
+            // rejects "", but an empty string is a legitimate expected output
+            // for SQL problems (a query that correctly produces zero rows).
             output: {
                 type: String,
-                required: true,
+                default: "",
             },
 
         }
