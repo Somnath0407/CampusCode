@@ -1,0 +1,1166 @@
+[
+  {
+    "title": "Second Highest Salary",
+    "description": "Find the second highest distinct salary from the Employee table. If it does not exist, return NULL.\n\nTable: Employee(id INT, salary INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Employee (id INT, salary INT);\nINSERT INTO Employee VALUES (1,100),(2,200),(3,300);",
+        "output": "200\n",
+        "explanation": "Distinct salaries descending are 300, 200, 100 — second highest is 200."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Employee (id INT, salary INT);\nINSERT INTO Employee VALUES (1,100),(2,100),(3,100);",
+        "output": "\n"
+      },
+      {
+        "input": "CREATE TABLE Employee (id INT, salary INT);",
+        "output": "\n"
+      },
+      {
+        "input": "CREATE TABLE Employee (id INT, salary INT);\nINSERT INTO Employee VALUES (1,500),(2,500),(3,400),(4,300);",
+        "output": "400\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT\n    -- Write your query here\n;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT (\n    SELECT salary\n    FROM Employee\n    GROUP BY salary\n    ORDER BY salary DESC\n    LIMIT 1 OFFSET 1\n) AS SecondHighestSalary;"
+      }
+    ]
+  },
+  {
+    "title": "Nth Highest Salary",
+    "description": "Return the Nth highest distinct salary from the Employee table. Return NULL if fewer than N distinct salaries exist.\n\nThis platform runs SQL as plain queries rather than stored functions, so N is provided via a one-row Parameter table.\n\nTables: Employee(id INT, salary INT), Parameter(n INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Employee (id INT, salary INT);\nINSERT INTO Employee VALUES (1,100),(2,200),(3,300);\nCREATE TABLE Parameter (n INT);\nINSERT INTO Parameter VALUES (2);",
+        "output": "200\n",
+        "explanation": "After removing duplicates and sorting descending, the 2nd value is 200."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Employee (id INT, salary INT);\nINSERT INTO Employee VALUES (1,100),(2,200),(3,200),(4,300);\nCREATE TABLE Parameter (n INT);\nINSERT INTO Parameter VALUES (2);",
+        "output": "200\n"
+      },
+      {
+        "input": "CREATE TABLE Employee (id INT, salary INT);\nINSERT INTO Employee VALUES (1,100),(2,200);\nCREATE TABLE Parameter (n INT);\nINSERT INTO Parameter VALUES (3);",
+        "output": "\n"
+      },
+      {
+        "input": "CREATE TABLE Employee (id INT, salary INT);\nINSERT INTO Employee VALUES (1,-10),(2,-20),(3,-30);\nCREATE TABLE Parameter (n INT);\nINSERT INTO Parameter VALUES (1);",
+        "output": "-10\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT\n    -- Write your query here\n;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT (\n    SELECT salary\n    FROM Employee\n    GROUP BY salary\n    ORDER BY salary DESC\n    LIMIT 1 OFFSET (SELECT n - 1 FROM Parameter)\n) AS NthHighestSalary;"
+      }
+    ]
+  },
+  {
+    "title": "Rank Scores",
+    "description": "Rank all scores in the Scores table in descending order. Equal scores must have the same rank, and there must be no gaps between ranks.\n\nTable: Scores(id INT, score DECIMAL(3,2))",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Scores (id INT, score DECIMAL(3,2));\nINSERT INTO Scores VALUES (1,3.50),(2,3.65),(3,4.00),(4,3.85),(5,4.00);",
+        "output": "4|1\n4|1\n3.85|2\n3.65|3\n3.5|4\n",
+        "explanation": "Two scores tie for rank 1 (4.00); ranks stay consecutive after that."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Scores (id INT, score DECIMAL(3,2));\nINSERT INTO Scores VALUES (1,3.00),(2,3.00),(3,3.00);",
+        "output": "3|1\n3|1\n3|1\n"
+      },
+      {
+        "input": "CREATE TABLE Scores (id INT, score DECIMAL(3,2));\nINSERT INTO Scores VALUES (1,5.00);",
+        "output": "5|1\n"
+      },
+      {
+        "input": "CREATE TABLE Scores (id INT, score DECIMAL(3,2));\nINSERT INTO Scores VALUES (1,10.00),(2,10.00),(3,9.00),(4,8.00),(5,8.00),(6,7.00);",
+        "output": "10|1\n10|1\n9|2\n8|3\n8|3\n7|4\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT\n    score,\n    -- Add rank here\nFROM Scores;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT score,\n       DENSE_RANK() OVER (ORDER BY score DESC) AS `rank`\nFROM Scores\nORDER BY score DESC;"
+      }
+    ]
+  },
+  {
+    "title": "Consecutive Numbers",
+    "description": "Find all numbers in the Logs table that appear at least three times consecutively (by id order).\n\nTable: Logs(id INT, num INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Logs (id INT, num INT);\nINSERT INTO Logs VALUES (1,1),(2,1),(3,1),(4,2),(5,1),(6,2),(7,2);",
+        "output": "1\n",
+        "explanation": "The value 1 appears in rows 1,2,3 consecutively."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Logs (id INT, num INT);\nINSERT INTO Logs VALUES (1,7),(2,7),(3,7),(4,7);",
+        "output": "7\n"
+      },
+      {
+        "input": "CREATE TABLE Logs (id INT, num INT);\nINSERT INTO Logs VALUES (1,1),(2,1),(3,2),(4,1),(5,1);",
+        "output": ""
+      },
+      {
+        "input": "CREATE TABLE Logs (id INT, num INT);\nINSERT INTO Logs VALUES (1,1),(2,1),(3,1),(4,2),(5,2),(6,2);",
+        "output": "1\n2\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT DISTINCT num AS ConsecutiveNums\nFROM Logs\nWHERE ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT DISTINCT l1.num AS ConsecutiveNums\nFROM Logs l1\nJOIN Logs l2 ON l2.id = l1.id + 1 AND l2.num = l1.num\nJOIN Logs l3 ON l3.id = l1.id + 2 AND l3.num = l1.num\nORDER BY ConsecutiveNums;"
+      }
+    ]
+  },
+  {
+    "title": "Department Highest Salary",
+    "description": "Find employees who have the highest salary in each department. Include ties.\n\nTables: Employee(id INT, name TEXT, salary INT, departmentId INT), Department(id INT, name TEXT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Employee (id INT, name TEXT, salary INT, departmentId INT);\nINSERT INTO Employee VALUES (1,'Joe',85000,1),(2,'Max',90000,1),(3,'Henry',80000,2),(4,'Sam',60000,2),(5,'Jane',80000,2);\nCREATE TABLE Department (id INT, name TEXT);\nINSERT INTO Department VALUES (1,'IT'),(2,'Sales');",
+        "output": "IT|Max|90000\nSales|Henry|80000\nSales|Jane|80000\n",
+        "explanation": "Henry and Jane tie for the highest salary in Sales."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Employee (id INT, name TEXT, salary INT, departmentId INT);\nINSERT INTO Employee VALUES (1,'Ann',50000,1);\nCREATE TABLE Department (id INT, name TEXT);\nINSERT INTO Department VALUES (1,'HR');",
+        "output": "HR|Ann|50000\n"
+      },
+      {
+        "input": "CREATE TABLE Employee (id INT, name TEXT, salary INT, departmentId INT);\nINSERT INTO Employee VALUES (1,'A',100,1),(2,'B',100,1),(3,'C',90,1);\nCREATE TABLE Department (id INT, name TEXT);\nINSERT INTO Department VALUES (1,'Eng');",
+        "output": "Eng|A|100\nEng|B|100\n"
+      },
+      {
+        "input": "CREATE TABLE Employee (id INT, name TEXT, salary INT, departmentId INT);\nINSERT INTO Employee VALUES (1,'A',100,1),(2,'B',200,2),(3,'C',150,1);\nCREATE TABLE Department (id INT, name TEXT);\nINSERT INTO Department VALUES (1,'Eng'),(2,'Sales');",
+        "output": "Eng|C|150\nSales|B|200\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ... FROM Employee e JOIN Department d ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT d.name AS Department, e.name AS Employee, e.salary AS Salary\nFROM Employee e\nJOIN Department d ON e.departmentId = d.id\nWHERE (e.departmentId, e.salary) IN (\n    SELECT departmentId, MAX(salary)\n    FROM Employee\n    GROUP BY departmentId\n)\nORDER BY d.name, e.name;"
+      }
+    ]
+  },
+  {
+    "title": "Game Play Analysis III",
+    "description": "For every player and date, report the total number of games played by that player up to and including that date.\n\nTable: Activity(player_id INT, device_id INT, event_date DATE, games_played INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Activity (player_id INT, device_id INT, event_date DATE, games_played INT);\nINSERT INTO Activity VALUES (1,2,'2016-03-01',5),(1,2,'2016-03-02',6),(2,3,'2017-06-25',1);",
+        "output": "1|2016-03-01|5\n1|2016-03-02|11\n2|2017-06-25|1\n",
+        "explanation": "Player 1's running total is 5, then 5+6=11."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Activity (player_id INT, device_id INT, event_date DATE, games_played INT);\nINSERT INTO Activity VALUES (1,1,'2020-01-01',5),(1,1,'2020-01-02',0),(1,1,'2020-01-03',10);",
+        "output": "1|2020-01-01|5\n1|2020-01-02|5\n1|2020-01-03|15\n"
+      },
+      {
+        "input": "CREATE TABLE Activity (player_id INT, device_id INT, event_date DATE, games_played INT);\nINSERT INTO Activity VALUES (1,1,'2020-01-01',5),(2,1,'2020-01-01',3),(1,1,'2020-01-02',2),(2,1,'2020-01-02',4);",
+        "output": "1|2020-01-01|5\n1|2020-01-02|7\n2|2020-01-01|3\n2|2020-01-02|7\n"
+      },
+      {
+        "input": "CREATE TABLE Activity (player_id INT, device_id INT, event_date DATE, games_played INT);\nINSERT INTO Activity VALUES (9,1,'2020-05-05',7);",
+        "output": "9|2020-05-05|7\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT player_id, event_date, ... FROM Activity;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT player_id, event_date,\n       SUM(games_played) OVER (\n           PARTITION BY player_id\n           ORDER BY event_date\n       ) AS games_played_so_far\nFROM Activity\nORDER BY player_id, event_date;"
+      }
+    ]
+  },
+  {
+    "title": "Game Play Analysis IV",
+    "description": "Find the fraction of players who logged in again exactly one day after their first login date. Round to 2 decimal places.\n\nTable: Activity(player_id INT, device_id INT, event_date DATE, games_played INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Activity (player_id INT, device_id INT, event_date DATE, games_played INT);\nINSERT INTO Activity VALUES (1,2,'2016-03-01',5),(1,2,'2016-03-02',6),(2,3,'2017-06-25',1);",
+        "output": "0.5\n",
+        "explanation": "Player 1 returned exactly one day later; player 2 did not. 1/2 = 0.50."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Activity (player_id INT, device_id INT, event_date DATE, games_played INT);\nINSERT INTO Activity VALUES (1,1,'2020-01-01',3),(2,1,'2020-01-05',2),(3,1,'2020-02-01',1);",
+        "output": "0.0\n"
+      },
+      {
+        "input": "CREATE TABLE Activity (player_id INT, device_id INT, event_date DATE, games_played INT);\nINSERT INTO Activity VALUES (1,1,'2020-01-01',3),(1,1,'2020-01-02',3),(2,1,'2020-01-01',2),(2,1,'2020-01-02',2);",
+        "output": "1.0\n"
+      },
+      {
+        "input": "CREATE TABLE Activity (player_id INT, device_id INT, event_date DATE, games_played INT);\nINSERT INTO Activity VALUES (1,1,'2020-01-01',3),(2,1,'2020-01-01',3),(3,1,'2020-01-03',3);",
+        "output": "0.0\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ROUND(..., 2) AS fraction;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT ROUND(\n    1.0 * COUNT(DISTINCT a.player_id) /\n    (SELECT COUNT(DISTINCT player_id) FROM Activity),\n    2\n) AS fraction\nFROM Activity a\nJOIN (\n    SELECT player_id, MIN(event_date) AS first_date\n    FROM Activity\n    GROUP BY player_id\n) f ON a.player_id = f.player_id\n   AND a.event_date = date(f.first_date, '+1 day');"
+      }
+    ]
+  },
+  {
+    "title": "Managers with at Least 5 Direct Reports",
+    "description": "Find the names of managers who have at least 5 direct reports.\n\nTable: Employee(id INT, name TEXT, department TEXT, managerId INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Employee (id INT, name TEXT, department TEXT, managerId INT);\nINSERT INTO Employee VALUES\n(1,'John','D1',NULL),\n(2,'A','D1',1),(3,'B','D1',1),(4,'C','D1',1),(5,'D','D1',1),(6,'E','D1',1);",
+        "output": "John\n",
+        "explanation": "John has exactly 5 direct reports."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Employee (id INT, name TEXT, department TEXT, managerId INT);\nINSERT INTO Employee VALUES\n(1,'Mia','D1',NULL),\n(2,'A','D1',1),(3,'B','D1',1),(4,'C','D1',1),(5,'D','D1',1);",
+        "output": ""
+      },
+      {
+        "input": "CREATE TABLE Employee (id INT, name TEXT, department TEXT, managerId INT);\nINSERT INTO Employee VALUES\n(1,'Sam','D1',NULL),(2,'Tia','D2',NULL),\n(3,'A','D1',1),(4,'B','D1',1),(5,'C','D1',1),(6,'D','D1',1),(7,'E','D1',1),(8,'F','D1',1),\n(9,'A2','D2',2),(10,'B2','D2',2),(11,'C2','D2',2),(12,'D2x','D2',2),(13,'E2','D2',2),(14,'F2','D2',2);",
+        "output": "Sam\nTia\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT name FROM Employee WHERE ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT e.name\nFROM Employee e\nJOIN Employee r ON e.id = r.managerId\nGROUP BY e.id, e.name\nHAVING COUNT(r.id) >= 5\nORDER BY e.name;"
+      }
+    ]
+  },
+  {
+    "title": "Winning Candidate",
+    "description": "Find the candidate who received the largest number of votes. Exactly one candidate wins.\n\nTables: Candidate(id INT, name TEXT), Vote(id INT, candidateId INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Candidate (id INT, name TEXT);\nINSERT INTO Candidate VALUES (1,'A'),(2,'B'),(3,'C');\nCREATE TABLE Vote (id INT, candidateId INT);\nINSERT INTO Vote VALUES (1,1),(2,2),(3,2),(4,2),(5,3),(6,3);",
+        "output": "B\n",
+        "explanation": "B has 3 votes, the highest."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Candidate (id INT, name TEXT);\nINSERT INTO Candidate VALUES (1,'A'),(2,'B');\nCREATE TABLE Vote (id INT, candidateId INT);\nINSERT INTO Vote VALUES (1,1);",
+        "output": "A\n"
+      },
+      {
+        "input": "CREATE TABLE Candidate (id INT, name TEXT);\nINSERT INTO Candidate VALUES (1,'A'),(2,'B'),(3,'C');\nCREATE TABLE Vote (id INT, candidateId INT);\nINSERT INTO Vote VALUES (1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(8,1),(9,1),(10,1),(11,2),(12,3);",
+        "output": "A\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT c.name\nFROM Candidate c\nJOIN Vote v ON c.id = v.candidateId\nGROUP BY c.id, c.name\nORDER BY COUNT(*) DESC\nLIMIT 1;"
+      }
+    ]
+  },
+  {
+    "title": "Get Highest Answer Rate Question",
+    "description": "Return the question with the highest answer rate: (number of answer actions) / (number of show actions).\n\nTable: SurveyLog(id INT, action TEXT, question_id INT, answer_id INT, q_num INT, timestamp INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE SurveyLog (id INT, action TEXT, question_id INT, answer_id INT, q_num INT, timestamp INT);\nINSERT INTO SurveyLog VALUES\n(1,'show',1,NULL,1,100),(2,'show',1,NULL,1,101),(3,'answer',1,101,1,102),\n(4,'show',1,NULL,1,103),(5,'answer',1,102,1,104),(11,'show',1,NULL,1,110),\n(6,'show',2,NULL,2,105),(7,'answer',2,201,2,106),(8,'show',2,NULL,2,107),\n(9,'answer',2,202,2,108),(10,'show',2,NULL,2,109);",
+        "output": "2\n",
+        "explanation": "Q1 rate=2/4=0.5, Q2 rate=2/3=0.667 — Q2 wins."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE SurveyLog (id INT, action TEXT, question_id INT, answer_id INT, q_num INT, timestamp INT);\nINSERT INTO SurveyLog VALUES\n(1,'show',5,NULL,1,1),(2,'show',5,NULL,1,2),(3,'show',5,NULL,1,3);",
+        "output": "5\n"
+      },
+      {
+        "input": "CREATE TABLE SurveyLog (id INT, action TEXT, question_id INT, answer_id INT, q_num INT, timestamp INT);\nINSERT INTO SurveyLog VALUES\n(1,'show',1,NULL,1,1),(2,'answer',1,1,1,2),\n(3,'show',2,NULL,1,3),(4,'show',2,NULL,1,4),(5,'answer',2,2,1,5);",
+        "output": "1\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT question_id AS survey_log FROM SurveyLog ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT question_id AS survey_log\nFROM SurveyLog\nGROUP BY question_id\nORDER BY 1.0 * SUM(action = 'answer') / SUM(action = 'show') DESC\nLIMIT 1;"
+      }
+    ]
+  },
+  {
+    "title": "Count Student Number in Departments",
+    "description": "Report each department and the number of students in it. Sort by student count descending, then department name ascending.\n\nTables: Student(student_id INT, student_name TEXT, gender TEXT, dept_id INT), Department(dept_id INT, dept_name TEXT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Department (dept_id INT, dept_name TEXT);\nINSERT INTO Department VALUES (1,'CS'),(2,'EE');\nCREATE TABLE Student (student_id INT, student_name TEXT, gender TEXT, dept_id INT);\nINSERT INTO Student VALUES (1,'A','M',1),(2,'B','F',1),(3,'C','M',2);",
+        "output": "CS|2\nEE|1\n",
+        "explanation": "CS has 2 students, EE has 1."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Department (dept_id INT, dept_name TEXT);\nINSERT INTO Department VALUES (1,'Math');\nCREATE TABLE Student (student_id INT, student_name TEXT, gender TEXT, dept_id INT);\nINSERT INTO Student VALUES (1,'A','M',1);",
+        "output": "Math|1\n"
+      },
+      {
+        "input": "CREATE TABLE Department (dept_id INT, dept_name TEXT);\nINSERT INTO Department VALUES (1,'Bio'),(2,'Art'),(3,'CS');\nCREATE TABLE Student (student_id INT, student_name TEXT, gender TEXT, dept_id INT);\nINSERT INTO Student VALUES (1,'A','M',1),(2,'B','M',2),(3,'C','M',3),(4,'D','M',3),(5,'E','M',3);",
+        "output": "CS|3\nArt|1\nBio|1\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT dept_name, ... FROM Student;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT d.dept_name, COUNT(s.student_id) AS student_number\nFROM Department d\nLEFT JOIN Student s ON s.dept_id = d.dept_id\nGROUP BY d.dept_id, d.dept_name\nORDER BY student_number DESC, d.dept_name ASC;"
+      }
+    ]
+  },
+  {
+    "title": "Investments in 2016",
+    "description": "Sum tiv_2016 for policies whose tiv_2015 value occurs more than once and whose (lat, lon) location is unique. Round to 2 decimals.\n\nTable: Insurance(pid INT, tiv_2015 DECIMAL, tiv_2016 DECIMAL, lat DECIMAL, lon DECIMAL)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Insurance (pid INT, tiv_2015 DECIMAL, tiv_2016 DECIMAL, lat DECIMAL, lon DECIMAL);\nINSERT INTO Insurance VALUES\n(1,10,5,10,10),(2,20,20,20,20),(3,10,30,20,20),(4,10,40,40,40);",
+        "output": "45.0\n",
+        "explanation": "pid 1 and 4 share tiv_2015=10 and both have unique locations; sum of their tiv_2016 = 5+40=45."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Insurance (pid INT, tiv_2015 DECIMAL, tiv_2016 DECIMAL, lat DECIMAL, lon DECIMAL);\nINSERT INTO Insurance VALUES (1,5,100,1,1),(2,5,200,1,1);",
+        "output": "\n"
+      },
+      {
+        "input": "CREATE TABLE Insurance (pid INT, tiv_2015 DECIMAL, tiv_2016 DECIMAL, lat DECIMAL, lon DECIMAL);\nINSERT INTO Insurance VALUES (1,5,100,1,1),(2,7,200,2,2);",
+        "output": "\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ROUND(SUM(tiv_2016), 2) AS tiv_2016 FROM Insurance;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT ROUND(SUM(tiv_2016), 2) AS tiv_2016\nFROM Insurance\nWHERE tiv_2015 IN (\n    SELECT tiv_2015 FROM Insurance GROUP BY tiv_2015 HAVING COUNT(*) > 1\n)\nAND (lat, lon) IN (\n    SELECT lat, lon FROM Insurance GROUP BY lat, lon HAVING COUNT(*) = 1\n);"
+      }
+    ]
+  },
+  {
+    "title": "Friend Requests II: Who Has the Most Friends",
+    "description": "Find the person with the largest number of friends.\n\nTable: RequestAccepted(requester_id INT, accepter_id INT, accept_date DATE)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE RequestAccepted (requester_id INT, accepter_id INT, accept_date DATE);\nINSERT INTO RequestAccepted VALUES (1,2,'2016-06-03'),(2,3,'2016-06-08'),(2,4,'2016-06-09');",
+        "output": "2|3\n",
+        "explanation": "Person 2 appears in all three accepted friendships."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE RequestAccepted (requester_id INT, accepter_id INT, accept_date DATE);\nINSERT INTO RequestAccepted VALUES (5,6,'2020-01-01'),(5,7,'2020-01-02');",
+        "output": "5|2\n"
+      },
+      {
+        "input": "CREATE TABLE RequestAccepted (requester_id INT, accepter_id INT, accept_date DATE);\nINSERT INTO RequestAccepted VALUES (1,2,'2020-01-01'),(3,2,'2020-01-02'),(4,2,'2020-01-03'),(2,5,'2020-01-04');",
+        "output": "2|4\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT id, num FROM ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "WITH friends AS (\n    SELECT requester_id AS id FROM RequestAccepted\n    UNION ALL\n    SELECT accepter_id AS id FROM RequestAccepted\n)\nSELECT id, COUNT(*) AS num\nFROM friends\nGROUP BY id\nORDER BY num DESC\nLIMIT 1;"
+      }
+    ]
+  },
+  {
+    "title": "Tree Node",
+    "description": "Classify every node in the Tree table as Root, Inner, or Leaf.\n\nTable: Tree(id INT, p_id INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Tree (id INT, p_id INT);\nINSERT INTO Tree VALUES (1,NULL),(2,1),(3,1);",
+        "output": "1|Root\n2|Leaf\n3|Leaf\n",
+        "explanation": "1 is Root; 2 and 3 have no children, so they're Leaf."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Tree (id INT, p_id INT);\nINSERT INTO Tree VALUES (1,NULL);",
+        "output": "1|Root\n"
+      },
+      {
+        "input": "CREATE TABLE Tree (id INT, p_id INT);\nINSERT INTO Tree VALUES (1,NULL),(2,1),(3,2);",
+        "output": "1|Root\n2|Inner\n3|Leaf\n"
+      },
+      {
+        "input": "CREATE TABLE Tree (id INT, p_id INT);\nINSERT INTO Tree VALUES (1,NULL),(2,1),(3,1),(4,1),(5,2);",
+        "output": "1|Root\n2|Inner\n3|Leaf\n4|Leaf\n5|Leaf\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT id, CASE ... END AS type FROM Tree;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT id,\n       CASE\n           WHEN p_id IS NULL THEN 'Root'\n           WHEN id IN (SELECT p_id FROM Tree WHERE p_id IS NOT NULL) THEN 'Inner'\n           ELSE 'Leaf'\n       END AS type\nFROM Tree\nORDER BY id;"
+      }
+    ]
+  },
+  {
+    "title": "Shortest Distance in a Plane",
+    "description": "Find the shortest Euclidean distance between any two points in the Point table, rounded to 2 decimal places.\n\nTable: Point(x INT, y INT)\n\nNote: this judge's SQLite build has no SQRT()/POWER() functions. Since sqrt is monotonic, MIN(sqrt(d)) = sqrt(MIN(d)) — find the minimum squared distance with plain arithmetic first, then take a single square root (e.g. via a recursive CTE doing a few steps of Newton's method).",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Point (x INT, y INT);\nINSERT INTO Point VALUES (0,0),(3,4),(1,1);",
+        "output": "1.41\n",
+        "explanation": "Distance between (0,0) and (1,1) is sqrt(2) ~= 1.41, the shortest pair."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Point (x INT, y INT);\nINSERT INTO Point VALUES (0,0),(3,4);",
+        "output": "5.0\n"
+      },
+      {
+        "input": "CREATE TABLE Point (x INT, y INT);\nINSERT INTO Point VALUES (-1,-1),(2,3);",
+        "output": "5.0\n"
+      },
+      {
+        "input": "CREATE TABLE Point (x INT, y INT);\nINSERT INTO Point VALUES (5,5),(0,0),(1,1),(9,9);",
+        "output": "1.41\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ROUND(..., 2) AS shortest;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "WITH pairs AS (\n    SELECT (p1.x-p2.x)*(p1.x-p2.x) + (p1.y-p2.y)*(p1.y-p2.y) AS d2\n    FROM Point p1\n    JOIN Point p2 ON p1.x < p2.x OR (p1.x = p2.x AND p1.y < p2.y)\n),\nminval AS (\n    SELECT MIN(d2) AS d2 FROM pairs\n),\nnewton(x, n) AS (\n    SELECT d2 / 2.0, 0 FROM minval\n    UNION ALL\n    SELECT (x + (SELECT d2 FROM minval) / x) / 2.0, n + 1\n    FROM newton WHERE n < 20\n)\nSELECT ROUND((SELECT x FROM newton ORDER BY n DESC LIMIT 1), 2) AS shortest;"
+      }
+    ]
+  },
+  {
+    "title": "Second Degree Follower",
+    "description": "Find each user and the number of their second-degree followers (a follows b, b follows c => a is a second-degree follower of c).\n\nTable: Follow(followee TEXT, follower TEXT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Follow (followee TEXT, follower TEXT);\nINSERT INTO Follow VALUES ('B','A'),('C','B');",
+        "output": "C|1\n",
+        "explanation": "A follows B, B follows C, so C has 1 second-degree follower (A)."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Follow (followee TEXT, follower TEXT);\nINSERT INTO Follow VALUES ('B','A');",
+        "output": ""
+      },
+      {
+        "input": "CREATE TABLE Follow (followee TEXT, follower TEXT);\nINSERT INTO Follow VALUES ('B','A'),('C','A'),('D','B'),('D','C');",
+        "output": "D|1\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ... FROM Follow f1 JOIN Follow f2 ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT f2.followee, COUNT(DISTINCT f1.follower) AS num\nFROM Follow f1\nJOIN Follow f2 ON f1.followee = f2.follower\nGROUP BY f2.followee\nORDER BY f2.followee;"
+      }
+    ]
+  },
+  {
+    "title": "Exchange Seats",
+    "description": "Swap the id of every pair of consecutive students. If the number of students is odd, the last student's id remains unchanged.\n\nTable: Seat(id INT, student TEXT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Seat (id INT, student TEXT);\nINSERT INTO Seat VALUES (1,'Abbot'),(2,'Doris'),(3,'Emerson');",
+        "output": "1|Doris\n2|Abbot\n3|Emerson\n",
+        "explanation": "Positions 1 and 2 swap; position 3 (odd, last) stays."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Seat (id INT, student TEXT);\nINSERT INTO Seat VALUES (1,'A'),(2,'B'),(3,'C'),(4,'D');",
+        "output": "1|B\n2|A\n3|D\n4|C\n"
+      },
+      {
+        "input": "CREATE TABLE Seat (id INT, student TEXT);\nINSERT INTO Seat VALUES (1,'A'),(2,'B'),(3,'C'),(4,'D'),(5,'E');",
+        "output": "1|B\n2|A\n3|D\n4|C\n5|E\n"
+      },
+      {
+        "input": "CREATE TABLE Seat (id INT, student TEXT);\nINSERT INTO Seat VALUES (1,'Solo');",
+        "output": "1|Solo\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ... FROM Seat ORDER BY id;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT CASE\n           WHEN id % 2 = 1 AND id < (SELECT MAX(id) FROM Seat) THEN id + 1\n           WHEN id % 2 = 0 THEN id - 1\n           ELSE id\n       END AS id,\n       student\nFROM Seat\nORDER BY id;"
+      }
+    ]
+  },
+  {
+    "title": "Customers Who Bought All Products",
+    "description": "Find customer IDs of customers who bought every product listed in the Product table.\n\nTables: Customer(customer_id INT, product_key INT), Product(product_key INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Product (product_key INT);\nINSERT INTO Product VALUES (1),(2),(3);\nCREATE TABLE Customer (customer_id INT, product_key INT);\nINSERT INTO Customer VALUES (1,1),(1,2),(1,3),(2,1),(2,2);",
+        "output": "1\n",
+        "explanation": "Only customer 1 bought all three products."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Product (product_key INT);\nINSERT INTO Product VALUES (5);\nCREATE TABLE Customer (customer_id INT, product_key INT);\nINSERT INTO Customer VALUES (1,5),(1,5),(2,5);",
+        "output": "1\n2\n"
+      },
+      {
+        "input": "CREATE TABLE Product (product_key INT);\nINSERT INTO Product VALUES (1),(2);\nCREATE TABLE Customer (customer_id INT, product_key INT);\nINSERT INTO Customer VALUES (1,1),(1,2),(2,1),(2,2),(3,1);",
+        "output": "1\n2\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT customer_id FROM Customer ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT customer_id\nFROM Customer\nGROUP BY customer_id\nHAVING COUNT(DISTINCT product_key) = (SELECT COUNT(*) FROM Product)\nORDER BY customer_id;"
+      }
+    ]
+  },
+  {
+    "title": "Product Sales Analysis III",
+    "description": "For each product, report all rows corresponding to the first year that product was sold.\n\nTable: Sales(sale_id INT, product_id INT, year INT, quantity INT, price INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Sales (sale_id INT, product_id INT, year INT, quantity INT, price INT);\nINSERT INTO Sales VALUES (1,100,2018,10,20),(2,100,2019,12,25),(3,200,2020,5,30);",
+        "output": "100|2018|10|20\n200|2020|5|30\n",
+        "explanation": "Product 100's earliest year is 2018; product 200's is 2020."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Sales (sale_id INT, product_id INT, year INT, quantity INT, price INT);\nINSERT INTO Sales VALUES (1,1,2015,1,1);",
+        "output": "1|2015|1|1\n"
+      },
+      {
+        "input": "CREATE TABLE Sales (sale_id INT, product_id INT, year INT, quantity INT, price INT);\nINSERT INTO Sales VALUES (1,1,2018,10,20),(2,1,2018,5,20),(3,1,2019,1,1);",
+        "output": "1|2018|10|20\n1|2018|5|20\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT product_id, year AS first_year, quantity, price FROM Sales ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT product_id, year AS first_year, quantity, price\nFROM Sales\nWHERE (product_id, year) IN (\n    SELECT product_id, MIN(year)\n    FROM Sales\n    GROUP BY product_id\n)\nORDER BY product_id, sale_id;"
+      }
+    ]
+  },
+  {
+    "title": "Project Employees III",
+    "description": "Find the most experienced employee(s) in each project. Include ties.\n\nTables: Project(project_id INT, employee_id INT), Employee(employee_id INT, name TEXT, experience_years INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Employee (employee_id INT, name TEXT, experience_years INT);\nINSERT INTO Employee VALUES (1,'A',3),(2,'B',5),(3,'C',5);\nCREATE TABLE Project (project_id INT, employee_id INT);\nINSERT INTO Project VALUES (1,1),(1,2),(1,3);",
+        "output": "1|2\n1|3\n",
+        "explanation": "Employees 2 and 3 tie for 5 years experience on project 1."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Employee (employee_id INT, name TEXT, experience_years INT);\nINSERT INTO Employee VALUES (1,'Solo',2);\nCREATE TABLE Project (project_id INT, employee_id INT);\nINSERT INTO Project VALUES (1,1);",
+        "output": "1|1\n"
+      },
+      {
+        "input": "CREATE TABLE Employee (employee_id INT, name TEXT, experience_years INT);\nINSERT INTO Employee VALUES (1,'A',1),(2,'B',2),(3,'C',3),(4,'D',9);\nCREATE TABLE Project (project_id INT, employee_id INT);\nINSERT INTO Project VALUES (1,1),(1,2),(2,3),(2,4);",
+        "output": "1|2\n2|4\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ... FROM Project p JOIN Employee e ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT p.project_id, p.employee_id\nFROM Project p\nJOIN Employee e ON p.employee_id = e.employee_id\nWHERE (p.project_id, e.experience_years) IN (\n    SELECT p2.project_id, MAX(e2.experience_years)\n    FROM Project p2\n    JOIN Employee e2 ON p2.employee_id = e2.employee_id\n    GROUP BY p2.project_id\n)\nORDER BY p.project_id, p.employee_id;"
+      }
+    ]
+  },
+  {
+    "title": "Unpopular Books",
+    "description": "Find books available for at least one month before 2019-05-23 that sold fewer than 10 copies between 2018-06-23 and 2019-06-23.\n\nTables: Books(book_id INT, name TEXT, available_from DATE), Orders(order_id INT, book_id INT, quantity INT, dispatch_date DATE)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Books (book_id INT, name TEXT, available_from DATE);\nINSERT INTO Books VALUES (1,'Book A','2018-01-01'),(2,'Book B','2019-06-01');\nCREATE TABLE Orders (order_id INT, book_id INT, quantity INT, dispatch_date DATE);\nINSERT INTO Orders VALUES (1,1,5,'2019-01-01');",
+        "output": "1|Book A\n",
+        "explanation": "Book A qualifies (old enough, only 5 sold); Book B is too recent to qualify."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Books (book_id INT, name TEXT, available_from DATE);\nINSERT INTO Books VALUES (3,'Book C','2017-01-01');\nCREATE TABLE Orders (order_id INT, book_id INT, quantity INT, dispatch_date DATE);",
+        "output": "3|Book C\n"
+      },
+      {
+        "input": "CREATE TABLE Books (book_id INT, name TEXT, available_from DATE);\nINSERT INTO Books VALUES (4,'Book D','2017-01-01');\nCREATE TABLE Orders (order_id INT, book_id INT, quantity INT, dispatch_date DATE);\nINSERT INTO Orders VALUES (1,4,10,'2019-01-01');",
+        "output": ""
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT b.book_id, b.name FROM Books b ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT b.book_id, b.name\nFROM Books b\nLEFT JOIN Orders o\n  ON b.book_id = o.book_id\n AND o.dispatch_date BETWEEN '2018-06-23' AND '2019-06-23'\nWHERE b.available_from < '2019-05-23'\nGROUP BY b.book_id, b.name\nHAVING COALESCE(SUM(o.quantity), 0) < 10\nORDER BY b.book_id;"
+      }
+    ]
+  },
+  {
+    "title": "New Users Daily Count",
+    "description": "Count users whose first-ever activity fell in the 90-day period ending on 2019-06-30, grouped by first activity date.\n\nTable: Traffic(user_id INT, activity TEXT, activity_date DATE)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Traffic (user_id INT, activity TEXT, activity_date DATE);\nINSERT INTO Traffic VALUES (1,'login','2019-06-20'),(2,'login','2019-01-01');",
+        "output": "2019-06-20|1\n",
+        "explanation": "User 1's first activity is inside the 90-day window; user 2's is not."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Traffic (user_id INT, activity TEXT, activity_date DATE);\nINSERT INTO Traffic VALUES (1,'login','2019-06-01'),(1,'logout','2019-06-02');",
+        "output": "2019-06-01|1\n"
+      },
+      {
+        "input": "CREATE TABLE Traffic (user_id INT, activity TEXT, activity_date DATE);\nINSERT INTO Traffic VALUES (1,'login','2019-06-15'),(2,'login','2019-06-15'),(3,'login','2019-06-15');",
+        "output": "2019-06-15|3\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ... FROM Traffic;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "WITH first_activity AS (\n    SELECT user_id, MIN(activity_date) AS login_date\n    FROM Traffic\n    GROUP BY user_id\n)\nSELECT login_date, COUNT(*) AS user_count\nFROM first_activity\nWHERE login_date BETWEEN date('2019-06-30', '-89 days') AND '2019-06-30'\nGROUP BY login_date\nORDER BY login_date;"
+      }
+    ]
+  },
+  {
+    "title": "Highest Grade For Each Student",
+    "description": "For every student, return the course with the highest grade. If tied, return the smallest course ID.\n\nTable: Enrollments(student_id INT, course_id INT, grade INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Enrollments (student_id INT, course_id INT, grade INT);\nINSERT INTO Enrollments VALUES (1,10,90),(1,20,90),(1,30,80);",
+        "output": "1|10|90\n",
+        "explanation": "Courses 10 and 20 tie at 90 — the smaller course ID (10) is returned."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Enrollments (student_id INT, course_id INT, grade INT);\nINSERT INTO Enrollments VALUES (1,5,70);",
+        "output": "1|5|70\n"
+      },
+      {
+        "input": "CREATE TABLE Enrollments (student_id INT, course_id INT, grade INT);\nINSERT INTO Enrollments VALUES (1,1,60),(1,2,95),(2,1,88),(2,2,88);",
+        "output": "1|2|95\n2|1|88\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ... FROM Enrollments;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "WITH ranked AS (\n    SELECT *, ROW_NUMBER() OVER (\n        PARTITION BY student_id\n        ORDER BY grade DESC, course_id ASC\n    ) AS rn\n    FROM Enrollments\n)\nSELECT student_id, course_id, grade\nFROM ranked\nWHERE rn = 1\nORDER BY student_id;"
+      }
+    ]
+  },
+  {
+    "title": "Active Businesses",
+    "description": "Find businesses that have more events than the average for the same event type, in at least two event types.\n\nTable: Events(business_id INT, event_type TEXT, occurrences INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Events (business_id INT, event_type TEXT, occurrences INT);\nINSERT INTO Events VALUES\n(1,'reviews',7),(2,'reviews',3),(3,'reviews',2),\n(1,'ads',11),(2,'ads',2),(3,'ads',1);",
+        "output": "1\n",
+        "explanation": "Business 1 is above average in both 'reviews' and 'ads'."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Events (business_id INT, event_type TEXT, occurrences INT);\nINSERT INTO Events VALUES (1,'reviews',10),(2,'reviews',1),(1,'ads',1),(2,'ads',1);",
+        "output": ""
+      },
+      {
+        "input": "CREATE TABLE Events (business_id INT, event_type TEXT, occurrences INT);\nINSERT INTO Events VALUES (1,'a',5),(2,'a',5),(1,'b',5),(2,'b',5);",
+        "output": ""
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT business_id FROM Events ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "WITH avg_events AS (\n    SELECT event_type, AVG(occurrences) AS avg_occ\n    FROM Events\n    GROUP BY event_type\n)\nSELECT e.business_id\nFROM Events e\nJOIN avg_events a ON e.event_type = a.event_type\nWHERE e.occurrences > a.avg_occ\nGROUP BY e.business_id\nHAVING COUNT(*) >= 2\nORDER BY e.business_id;"
+      }
+    ]
+  },
+  {
+    "title": "Reported Posts II",
+    "description": "Find the average daily percentage of spam-reported posts that were removed.\n\nTables: Actions(post_id INT, action_date DATE, extra TEXT), Removals(post_id INT, remove_date DATE)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Actions (post_id INT, action_date DATE, extra TEXT);\nINSERT INTO Actions VALUES (1,'2019-07-01','spam'),(2,'2019-07-01','spam');\nCREATE TABLE Removals (post_id INT, remove_date DATE);\nINSERT INTO Removals VALUES (1,'2019-07-02');",
+        "output": "50.0\n",
+        "explanation": "On 2019-07-01, 1 of 2 spam posts was later removed: 50%."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Actions (post_id INT, action_date DATE, extra TEXT);\nINSERT INTO Actions VALUES (1,'2019-07-01','spam'),(2,'2019-07-01','spam');\nCREATE TABLE Removals (post_id INT, remove_date DATE);",
+        "output": "0.0\n"
+      },
+      {
+        "input": "CREATE TABLE Actions (post_id INT, action_date DATE, extra TEXT);\nINSERT INTO Actions VALUES (1,'2019-07-01','spam'),(2,'2019-07-02','spam');\nCREATE TABLE Removals (post_id INT, remove_date DATE);\nINSERT INTO Removals VALUES (1,'2019-07-01');",
+        "output": "50.0\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ROUND(AVG(...), 2) AS average_daily_percent;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "WITH daily AS (\n    SELECT a.action_date,\n           COUNT(DISTINCT r.post_id) * 100.0 / COUNT(DISTINCT a.post_id) AS pct\n    FROM Actions a\n    LEFT JOIN Removals r ON a.post_id = r.post_id\n    WHERE a.extra = 'spam'\n    GROUP BY a.action_date\n)\nSELECT ROUND(AVG(pct), 2) AS average_daily_percent\nFROM daily;"
+      }
+    ]
+  },
+  {
+    "title": "Article Views II",
+    "description": "Find viewers who viewed more than one distinct article on the same day.\n\nTable: Views(article_id INT, author_id INT, viewer_id INT, view_date DATE)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Views (article_id INT, author_id INT, viewer_id INT, view_date DATE);\nINSERT INTO Views VALUES (10,5,1,'2019-08-01'),(20,5,1,'2019-08-01');",
+        "output": "1\n",
+        "explanation": "Viewer 1 saw 2 distinct articles on the same day."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Views (article_id INT, author_id INT, viewer_id INT, view_date DATE);\nINSERT INTO Views VALUES (10,5,1,'2019-08-01'),(10,5,1,'2019-08-01');",
+        "output": ""
+      },
+      {
+        "input": "CREATE TABLE Views (article_id INT, author_id INT, viewer_id INT, view_date DATE);\nINSERT INTO Views VALUES (10,5,1,'2019-08-01'),(20,5,1,'2019-08-02');",
+        "output": ""
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT DISTINCT viewer_id AS id FROM Views ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT DISTINCT viewer_id AS id\nFROM Views\nGROUP BY viewer_id, view_date\nHAVING COUNT(DISTINCT article_id) > 1\nORDER BY id;"
+      }
+    ]
+  },
+  {
+    "title": "Market Analysis I",
+    "description": "Report every user's join date and number of orders placed in 2019.\n\nTables: Users(user_id INT, join_date DATE, favorite_brand TEXT), Orders(order_id INT, order_date DATE, item_id INT, buyer_id INT, seller_id INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Users (user_id INT, join_date DATE, favorite_brand TEXT);\nINSERT INTO Users VALUES (1,'2018-01-01','Nike');\nCREATE TABLE Orders (order_id INT, order_date DATE, item_id INT, buyer_id INT, seller_id INT);\nINSERT INTO Orders VALUES (1,'2019-03-01',1,1,2),(2,'2019-05-01',2,1,2);",
+        "output": "1|2018-01-01|2\n",
+        "explanation": "User 1 placed 2 orders in 2019."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Users (user_id INT, join_date DATE, favorite_brand TEXT);\nINSERT INTO Users VALUES (2,'2019-01-01','Adidas');\nCREATE TABLE Orders (order_id INT, order_date DATE, item_id INT, buyer_id INT, seller_id INT);",
+        "output": "2|2019-01-01|0\n"
+      },
+      {
+        "input": "CREATE TABLE Users (user_id INT, join_date DATE, favorite_brand TEXT);\nINSERT INTO Users VALUES (3,'2017-01-01','Puma');\nCREATE TABLE Orders (order_id INT, order_date DATE, item_id INT, buyer_id INT, seller_id INT);\nINSERT INTO Orders VALUES (1,'2018-01-01',1,3,1);",
+        "output": "3|2017-01-01|0\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT u.user_id AS buyer_id, u.join_date, ... FROM Users u;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT u.user_id AS buyer_id,\n       u.join_date,\n       COUNT(o.order_id) AS orders_in_2019\nFROM Users u\nLEFT JOIN Orders o\n  ON u.user_id = o.buyer_id\n AND o.order_date >= '2019-01-01'\n AND o.order_date < '2020-01-01'\nGROUP BY u.user_id, u.join_date\nORDER BY u.user_id;"
+      }
+    ]
+  },
+  {
+    "title": "Product Price at a Given Date",
+    "description": "Return the price of every product on 2019-08-16. If a product had no price change before that date, its price is 10.\n\nTable: Products(product_id INT, new_price INT, change_date DATE)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Products (product_id INT, new_price INT, change_date DATE);\nINSERT INTO Products VALUES (1,20,'2019-08-14'),(1,30,'2019-08-17');",
+        "output": "1|20\n",
+        "explanation": "The latest change on/before 08-16 is 20 (from 08-14)."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Products (product_id INT, new_price INT, change_date DATE);\nINSERT INTO Products VALUES (2,50,'2019-08-16');",
+        "output": "2|50\n"
+      },
+      {
+        "input": "CREATE TABLE Products (product_id INT, new_price INT, change_date DATE);\nINSERT INTO Products VALUES (3,15,'2019-08-01'),(3,25,'2019-08-10'),(3,35,'2019-08-15');",
+        "output": "3|35\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT product_id, new_price AS price\nFROM Products\nWHERE (product_id, change_date) IN (\n    SELECT product_id, MAX(change_date)\n    FROM Products\n    WHERE change_date <= '2019-08-16'\n    GROUP BY product_id\n)\nUNION\nSELECT product_id, 10 AS price\nFROM Products\nGROUP BY product_id\nHAVING MIN(change_date) > '2019-08-16'\nORDER BY product_id;"
+      }
+    ]
+  },
+  {
+    "title": "Immediate Food Delivery II",
+    "description": "Find the percentage of customers whose first order was delivered on the same day they ordered it.\n\nTable: Delivery(delivery_id INT, customer_id INT, order_date DATE, customer_pref_delivery_date DATE)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Delivery (delivery_id INT, customer_id INT, order_date DATE, customer_pref_delivery_date DATE);\nINSERT INTO Delivery VALUES (1,1,'2019-08-01','2019-08-01'),(2,2,'2019-08-02','2019-08-05');",
+        "output": "50.0\n",
+        "explanation": "Customer 1's first order was immediate; customer 2's was not — 50%."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Delivery (delivery_id INT, customer_id INT, order_date DATE, customer_pref_delivery_date DATE);\nINSERT INTO Delivery VALUES (1,1,'2019-08-01','2019-08-01'),(2,2,'2019-08-01','2019-08-01');",
+        "output": "100.0\n"
+      },
+      {
+        "input": "CREATE TABLE Delivery (delivery_id INT, customer_id INT, order_date DATE, customer_pref_delivery_date DATE);\nINSERT INTO Delivery VALUES (1,1,'2019-08-01','2019-08-04'),(2,2,'2019-08-01','2019-08-05');",
+        "output": "0.0\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ROUND(..., 2) AS immediate_percentage;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "WITH first_orders AS (\n    SELECT *, ROW_NUMBER() OVER (\n        PARTITION BY customer_id ORDER BY order_date\n    ) AS rn\n    FROM Delivery\n)\nSELECT ROUND(100.0 * AVG(order_date = customer_pref_delivery_date), 2) AS immediate_percentage\nFROM first_orders\nWHERE rn = 1;"
+      }
+    ]
+  },
+  {
+    "title": "Monthly Transactions I",
+    "description": "For each country and month, report transaction count, approved count, total amount, and approved amount.\n\nTable: Transactions(id INT, country TEXT, state TEXT, amount INT, trans_date DATE)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Transactions (id INT, country TEXT, state TEXT, amount INT, trans_date DATE);\nINSERT INTO Transactions VALUES (1,'US','approved',1000,'2019-05-01'),(2,'US','declined',500,'2019-05-02');",
+        "output": "2019-05|US|2|1|1500|1000\n",
+        "explanation": "2 transactions in 2019-05 for US, 1 approved, totals 1500 / 1000."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Transactions (id INT, country TEXT, state TEXT, amount INT, trans_date DATE);\nINSERT INTO Transactions VALUES (1,'US','approved',100,'2019-01-01'),(2,'US','approved',200,'2019-01-02');",
+        "output": "2019-01|US|2|2|300|300\n"
+      },
+      {
+        "input": "CREATE TABLE Transactions (id INT, country TEXT, state TEXT, amount INT, trans_date DATE);\nINSERT INTO Transactions VALUES (1,'US','declined',50,'2019-02-01'),(2,'IN','declined',75,'2019-02-01');",
+        "output": "2019-02|IN|1|0|75|0\n2019-02|US|1|0|50|0\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ... FROM Transactions GROUP BY ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "SELECT strftime('%Y-%m', trans_date) AS month,\n       country,\n       COUNT(*) AS trans_count,\n       SUM(state = 'approved') AS approved_count,\n       SUM(amount) AS trans_total_amount,\n       SUM(CASE WHEN state = 'approved' THEN amount ELSE 0 END) AS approved_total_amount\nFROM Transactions\nGROUP BY month, country\nORDER BY month, country;"
+      }
+    ]
+  },
+  {
+    "title": "Last Person to Fit in the Bus",
+    "description": "Find the last person (by turn order) who can board a bus with a maximum total weight of 1000.\n\nTable: Queue(person_id INT, person_name TEXT, weight INT, turn INT)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Queue (person_id INT, person_name TEXT, weight INT, turn INT);\nINSERT INTO Queue VALUES (1,'Alice',400,1),(2,'Bob',700,2);",
+        "output": "Alice\n",
+        "explanation": "Alice (400) fits; adding Bob would make 1100, so Alice is last to fit."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Queue (person_id INT, person_name TEXT, weight INT, turn INT);\nINSERT INTO Queue VALUES (1,'A',500,1),(2,'B',500,2);",
+        "output": "B\n"
+      },
+      {
+        "input": "CREATE TABLE Queue (person_id INT, person_name TEXT, weight INT, turn INT);\nINSERT INTO Queue VALUES (1,'Solo',900,1);",
+        "output": "Solo\n"
+      },
+      {
+        "input": "CREATE TABLE Queue (person_id INT, person_name TEXT, weight INT, turn INT);\nINSERT INTO Queue VALUES (1,'A',300,1),(2,'B',300,2),(3,'C',300,3),(4,'D',300,4);",
+        "output": "C\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT person_name FROM ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "WITH q AS (\n    SELECT person_name, turn,\n           SUM(weight) OVER (ORDER BY turn) AS total_weight\n    FROM Queue\n)\nSELECT person_name\nFROM q\nWHERE total_weight <= 1000\nORDER BY turn DESC\nLIMIT 1;"
+      }
+    ]
+  },
+  {
+    "title": "Monthly Transactions II",
+    "description": "Report monthly transaction statistics including approved transactions and chargebacks, by country and month.\n\nTables: Transactions(id INT, country TEXT, state TEXT, amount INT, trans_date DATE), Chargebacks(trans_id INT, trans_date DATE)",
+    "difficulty": "medium",
+    "tags": "sql",
+    "visibleTestCases": [
+      {
+        "input": "CREATE TABLE Transactions (id INT, country TEXT, state TEXT, amount INT, trans_date DATE);\nINSERT INTO Transactions VALUES (1,'US','approved',100,'2019-05-18');\nCREATE TABLE Chargebacks (trans_id INT, trans_date DATE);\nINSERT INTO Chargebacks VALUES (1,'2019-05-29');",
+        "output": "2019-05|US|1|1|100|100|1|100\n",
+        "explanation": "One approved transaction and one chargeback referencing it, same month/country."
+      }
+    ],
+    "hiddenTestCases": [
+      {
+        "input": "CREATE TABLE Transactions (id INT, country TEXT, state TEXT, amount INT, trans_date DATE);\nINSERT INTO Transactions VALUES (1,'IN','declined',50,'2019-06-01');\nCREATE TABLE Chargebacks (trans_id INT, trans_date DATE);",
+        "output": "2019-06|IN|1|0|50|0|0|0\n"
+      },
+      {
+        "input": "CREATE TABLE Transactions (id INT, country TEXT, state TEXT, amount INT, trans_date DATE);\nINSERT INTO Transactions VALUES (1,'US','approved',200,'2019-07-01'),(2,'US','approved',300,'2019-07-02');\nCREATE TABLE Chargebacks (trans_id INT, trans_date DATE);\nINSERT INTO Chargebacks VALUES (1,'2019-07-15'),(2,'2019-07-16');",
+        "output": "2019-07|US|2|2|500|500|2|500\n"
+      }
+    ],
+    "startCode": [
+      {
+        "language": "sql",
+        "initialCode": "SELECT ...;"
+      }
+    ],
+    "referenceSolution": [
+      {
+        "language": "sql",
+        "completeCode": "WITH t AS (\n    SELECT strftime('%Y-%m', trans_date) AS month, country,\n           1 AS trans_count,\n           (state = 'approved') AS approved_count,\n           amount AS trans_total_amount,\n           CASE WHEN state = 'approved' THEN amount ELSE 0 END AS approved_total_amount,\n           0 AS chargeback_count, 0 AS chargeback_total_amount\n    FROM Transactions\n    UNION ALL\n    SELECT strftime('%Y-%m', c.trans_date), t.country,\n           0, 0, 0, 0, 1, t.amount\n    FROM Chargebacks c\n    JOIN Transactions t ON c.trans_id = t.id\n)\nSELECT month, country,\n       SUM(trans_count) AS trans_count,\n       SUM(approved_count) AS approved_count,\n       SUM(trans_total_amount) AS trans_total_amount,\n       SUM(approved_total_amount) AS approved_total_amount,\n       SUM(chargeback_count) AS chargeback_count,\n       SUM(chargeback_total_amount) AS chargeback_total_amount\nFROM t\nGROUP BY month, country\nORDER BY month, country;"
+      }
+    ]
+  }
+]
