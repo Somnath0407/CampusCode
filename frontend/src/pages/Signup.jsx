@@ -1,16 +1,19 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 import toast from "react-hot-toast";
 import { Mail, Lock, User, ArrowRight } from "lucide-react";
-import { registerUser } from "../store/authSlice";
+import { registerUser, googleLogin } from "../store/authSlice";
 import Logo from "../components/Logo";
+import { useTheme } from "../context/ThemeContext";
 
 const Signup = () => {
     const [form, setForm] = useState({ firstName: "", lastName: "", email: "", password: "" });
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { loading } = useSelector((state) => state.auth);
+    const { isDark } = useTheme();
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -22,6 +25,16 @@ const Signup = () => {
             navigate("/problems");
         } else {
             toast.error(result.payload || "Registration failed");
+        }
+    };
+
+    const handleGoogleSuccess = async (credentialResponse) => {
+        const result = await dispatch(googleLogin(credentialResponse.credential));
+        if (googleLogin.fulfilled.match(result)) {
+            toast.success("Account ready!");
+            navigate(result.payload.role === "admin" ? "/admin" : "/problems");
+        } else {
+            toast.error(result.payload || "Google sign-in failed");
         }
     };
 
@@ -51,6 +64,17 @@ const Signup = () => {
                 <div className="w-full max-w-sm">
                     <h1 className="text-2xl font-bold mb-1">Create your account</h1>
                     <p className="text-base-content/60 text-sm mb-6">Start solving in less than a minute.</p>
+
+                    <div className="flex justify-center mb-4">
+                        <GoogleLogin
+                            onSuccess={handleGoogleSuccess}
+                            onError={() => toast.error("Google sign-in failed")}
+                            theme={isDark ? "filled_black" : "outline"}
+                            shape="pill"
+                            text="signup_with"
+                        />
+                    </div>
+                    <div className="divider text-xs text-base-content/40">OR</div>
 
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                         <div className="flex gap-2">

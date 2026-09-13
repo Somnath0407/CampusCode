@@ -36,8 +36,16 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: true,
+        required: function () { return !this.googleId; },
         minlength: 8,
+    },
+    googleId: {
+        type: String,
+        unique: true,
+        sparse: true,
+    },
+    avatar: {
+        type: String,
     },
 },{
     timestamps: true,

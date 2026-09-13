@@ -4,6 +4,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const redisClient = require("../config/redis");
 const { getBearerToken } = require("../utils/auth");
+const { OAuth2Client } = require('google-auth-library');
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const register = async (req, res) => {
 
@@ -77,6 +80,50 @@ const logout = async (req, res) => {
     }
 }
 
+const googleAuth = async (req, res) => {
+
+    try{
+        const {credential} = req.body;
+        if(!credential || typeof credential !== "string"){
+            throw new Error("Invalid Credentials");
+        }
+
+        const ticket = await googleClient.verifyIdToken({
+            idToken: credential,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+
+        let user = await User.findOne({ $or: [{ googleId: payload.sub }, { email: payload.email }] });
+
+        if(!user){
+            const rawFirst = payload.given_name || payload.name || "User";
+            const rawLast = payload.family_name || "";
+            user = await User.create({
+                firstName: rawFirst.length >= 3 ? rawFirst : "User",
+                lastName: rawLast.length >= 3 ? rawLast : undefined,
+                email: payload.email,
+                googleId: payload.sub,
+                avatar: payload.picture,
+                role: "user",
+            });
+        }
+        else if(!user.googleId){
+            user.googleId = payload.sub;
+            if(payload.picture && !user.avatar){
+                user.avatar = payload.picture;
+            }
+            await user.save();
+        }
+
+        const token = jwt.sign({_id:user._id, email:user.email ,role:user.role}, process.env.JWT_SECRET, { expiresIn: 60*60 });
+        res.status(200).json({ message: "User Logged In Successfully", token });
+    }
+    catch(err){
+        res.status(401).send("Error:"+err);
+    }
+}
+
 const adminRegister = async (req, res) => {
 
     try{
@@ -115,6 +162,7 @@ const getProfile = async (req, res) => {
             email: user.email,
             age: user.age,
             role: user.role,
+            avatar: user.avatar,
             problemSolved: user.problemSolved,
             createdAt: user.createdAt,
         });
@@ -124,4 +172,4 @@ const getProfile = async (req, res) => {
     }
 }
 
-module.exports = {register, login, logout, adminRegister, getProfile};
+module.exports = {register, login, logout, adminRegister, getProfile, googleAuth};
