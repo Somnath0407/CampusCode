@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import toast from "react-hot-toast";
-import { Play, Send, CheckCircle2, XCircle, History } from "lucide-react";
+import { Play, Pause, Send, CheckCircle2, XCircle, History, Sparkles, Timer, AlarmClock, ChevronDown, RotateCcw } from "lucide-react";
 import axiosClient from "../api/axiosClient";
 import Navbar from "../components/Navbar";
 import DifficultyBadge from "../components/DifficultyBadge";
@@ -126,6 +126,46 @@ const ProblemSolve = () => {
         }
     };
 
+    const getErrorText = () => {
+        if (submitResult) {
+            if (submitResult.errorMessage) return submitResult.errorMessage;
+            if (submitResult.status && submitResult.status !== "accepted") {
+                return `Status: ${submitResult.status}`;
+            }
+        }
+        if (runResult) {
+            const failed = runResult.results?.find((r) => !r.passed);
+            if (failed) {
+                return (
+                    failed.stderr ||
+                    failed.compileOutput ||
+                    `Expected output: ${failed.expectedOutput}\nActual output: ${failed.stdout ?? "-"}`
+                );
+            }
+        }
+        return "";
+    };
+
+    const handleAskAI = () => {
+        const errorText = getErrorText();
+        const languageLabel = LANGUAGE_META[language]?.label || language;
+        const prompt = [
+            `I'm solving this coding problem and my solution isn't working. Please identify the mistake(s) in my code, explain what's causing the error, and suggest a fix.`,
+            ``,
+            `Problem: ${problem.title}`,
+            problem.description,
+            ``,
+            `My ${languageLabel} code:`,
+            "```" + language,
+            currentCode,
+            "```",
+            errorText ? `\nError/output I'm getting:\n\`\`\`\n${errorText}\n\`\`\`` : "",
+        ].join("\n");
+
+        const url = `https://chatgpt.com/?q=${encodeURIComponent(prompt)}`;
+        window.open(url, "_blank", "noopener,noreferrer");
+    };
+
     const loadSubmissions = async () => {
         try {
             const { data } = await axiosClient.get(`/submission/${id}`);
@@ -158,28 +198,38 @@ const ProblemSolve = () => {
     return (
         <div className="h-screen flex flex-col bg-base-100">
             <Navbar />
+            <button
+                className="btn btn-sm btn-primary gap-1.5 fixed bottom-4 left-4 z-50 shadow-lg"
+                onClick={handleAskAI}
+                title="Send this question, your code, and the latest error to ChatGPT"
+            >
+                <Sparkles size={14} /> Ask AI
+            </button>
             <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
                 {/* Left: description / result / submissions */}
                 <div className="lg:w-1/2 w-full flex flex-col border-r border-base-300 overflow-hidden">
-                    <div className="tabs tabs-lift px-2 pt-2 bg-base-200 shrink-0">
-                        <a
-                            className={`tab ${activeTab === "description" ? "tab-active" : ""}`}
-                            onClick={() => setActiveTab("description")}
-                        >
-                            Description
-                        </a>
-                        <a
-                            className={`tab ${activeTab === "result" ? "tab-active" : ""}`}
-                            onClick={() => setActiveTab("result")}
-                        >
-                            Result
-                        </a>
-                        <a
-                            className={`tab ${activeTab === "submissions" ? "tab-active" : ""}`}
-                            onClick={() => { setActiveTab("submissions"); loadSubmissions(); }}
-                        >
-                            Submissions
-                        </a>
+                    <div className="flex items-center gap-2 px-2 pt-2 bg-base-200 shrink-0">
+                        <div className="tabs tabs-lift">
+                            <a
+                                className={`tab ${activeTab === "description" ? "tab-active" : ""}`}
+                                onClick={() => setActiveTab("description")}
+                            >
+                                Description
+                            </a>
+                            <a
+                                className={`tab ${activeTab === "result" ? "tab-active" : ""}`}
+                                onClick={() => setActiveTab("result")}
+                            >
+                                Result
+                            </a>
+                            <a
+                                className={`tab ${activeTab === "submissions" ? "tab-active" : ""}`}
+                                onClick={() => { setActiveTab("submissions"); loadSubmissions(); }}
+                            >
+                                Submissions
+                            </a>
+                        </div>
+                        <StopwatchTimer difficulty={problem.difficulty} />
                     </div>
 
                     <div className="flex-1 overflow-y-auto p-5">
@@ -272,6 +322,122 @@ const ProblemSolve = () => {
                     </div>
                 </div>
             </div>
+        </div>
+    );
+};
+
+const DIFFICULTY_MINUTES = { easy: 20, medium: 40, hard: 60 };
+
+const formatClock = (totalSeconds) => {
+    const hh = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+    const mm = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
+    const ss = String(totalSeconds % 60).padStart(2, "0");
+    return `${hh}:${mm}:${ss}`;
+};
+
+const StopwatchTimer = ({ difficulty }) => {
+    const timerDuration = (DIFFICULTY_MINUTES[difficulty?.toLowerCase()] || 20) * 60;
+    const [mode, setMode] = useState("stopwatch");
+    const [running, setRunning] = useState(false);
+    const [elapsed, setElapsed] = useState(0);
+    const [remaining, setRemaining] = useState(timerDuration);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useRef(null);
+
+    useEffect(() => {
+        if (!running) return;
+        if (mode === "timer" && remaining <= 0) {
+            setRunning(false);
+            toast.error("Time's up!");
+            return;
+        }
+        const tick = setTimeout(() => {
+            if (mode === "stopwatch") setElapsed((s) => s + 1);
+            else setRemaining((s) => s - 1);
+        }, 1000);
+        return () => clearTimeout(tick);
+    }, [running, mode, elapsed, remaining]);
+
+    useEffect(() => {
+        if (!menuOpen) return;
+        const onClickOutside = (e) => {
+            if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
+        };
+        document.addEventListener("mousedown", onClickOutside);
+        return () => document.removeEventListener("mousedown", onClickOutside);
+    }, [menuOpen]);
+
+    const selectMode = (m) => {
+        if (m !== mode) {
+            setRunning(false);
+            setMode(m);
+        }
+        setMenuOpen(false);
+    };
+
+    const handleReset = () => {
+        setRunning(false);
+        if (mode === "stopwatch") setElapsed(0);
+        else setRemaining(timerDuration);
+    };
+
+    const display = formatClock(mode === "stopwatch" ? elapsed : remaining);
+    const isTimeUp = mode === "timer" && remaining === 0;
+
+    return (
+        <div className="relative shrink-0" ref={menuRef}>
+            <div className="flex items-center gap-0.5 rounded-box border border-base-300 bg-base-100 px-1 py-1">
+                <button
+                    className="btn btn-ghost btn-xs btn-square"
+                    onClick={() => setMenuOpen((o) => !o)}
+                    title="Choose mode"
+                >
+                    <ChevronDown size={14} className={`transition-transform ${menuOpen ? "rotate-180" : ""}`} />
+                </button>
+                <button
+                    className="btn btn-ghost btn-xs btn-square text-primary"
+                    onClick={() => setRunning((r) => !r)}
+                    disabled={isTimeUp}
+                    title={running ? "Pause" : "Start"}
+                >
+                    {running ? <Pause size={14} /> : <Play size={14} />}
+                </button>
+                <span className={`font-mono text-sm font-semibold tabular-nums px-1 ${isTimeUp ? "text-error" : "text-primary"}`}>
+                    {display}
+                </span>
+                <button className="btn btn-ghost btn-xs btn-square" onClick={handleReset} title="Reset">
+                    <RotateCcw size={14} />
+                </button>
+            </div>
+
+            {menuOpen && (
+                <div className="absolute left-0 top-full mt-2 w-64 rounded-box border border-base-300 bg-base-200 shadow-xl p-3 z-50">
+                    <div className="grid grid-cols-2 gap-2 mb-3">
+                        <button
+                            onClick={() => selectMode("stopwatch")}
+                            className={`flex flex-col items-center gap-2 rounded-box border p-3 ${mode === "stopwatch" ? "border-primary bg-primary/10 text-primary" : "border-base-300 text-base-content/60"}`}
+                        >
+                            <Timer size={22} />
+                            <span className="text-sm font-semibold">Stopwatch</span>
+                        </button>
+                        <button
+                            onClick={() => selectMode("timer")}
+                            className={`flex flex-col items-center gap-2 rounded-box border p-3 ${mode === "timer" ? "border-primary bg-primary/10 text-primary" : "border-base-300 text-base-content/60"}`}
+                        >
+                            <AlarmClock size={22} />
+                            <span className="text-sm font-semibold">Timer</span>
+                        </button>
+                    </div>
+                    {mode === "timer" && (
+                        <p className="text-xs text-base-content/50 text-center mb-2">
+                            {DIFFICULTY_MINUTES[difficulty?.toLowerCase()] || 20} min for {difficulty || "this"} problems
+                        </p>
+                    )}
+                    <button className="btn btn-sm btn-block btn-ghost gap-2" onClick={handleReset}>
+                        <RotateCcw size={14} /> Reset {mode === "stopwatch" ? "Stopwatch" : "Timer"}
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
