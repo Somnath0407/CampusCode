@@ -2,6 +2,21 @@ const { getLanguageById, submitBatch, submitToken, buildJudge0Payload } = requir
 const Problem = require("../models/problem");
 const User = require("../models/user");
 
+const JUDGE0_STATUS_DESCRIPTIONS = {
+    4: "Wrong Answer",
+    5: "Time Limit Exceeded",
+    6: "Compilation Error",
+    7: "Runtime Error (SIGSEGV)",
+    8: "Runtime Error (SIGXFSZ)",
+    9: "Runtime Error (SIGFPE)",
+    10: "Runtime Error (SIGABRT)",
+    11: "Runtime Error (NZEC)",
+    12: "Runtime Error",
+    13: "Internal Error",
+    14: "Exec Format Error",
+};
+const describeJudge0Status = (statusId) => JUDGE0_STATUS_DESCRIPTIONS[statusId] || `Status ${statusId}`;
+
 const createProblem = async (req, res) => {
     try {
         const {
@@ -67,11 +82,17 @@ const createProblem = async (req, res) => {
                 });
             }
 
-            for (const test of testResults) {
-                if (test.status?.id !== 3 && test.status_id !== 3) {
+            for (let i = 0; i < testResults.length; i++) {
+                const test = testResults[i];
+                const statusId = test.status?.id ?? test.status_id;
+                if (statusId !== 3) {
+                    const testcase = allTestCases[i];
+                    const statusDescription = test.status?.description || describeJudge0Status(statusId);
+                    const detail = test.stderr || test.compile_output || test.message
+                        || `Expected output:\n${testcase.output}\n\nActual output:\n${test.stdout ?? "(no output)"}`;
                     return res.status(400).json({
-                        message: `Reference solution failed for ${language}`,
-                        error: test.stderr || test.compile_output || test.message
+                        message: `Reference solution failed for ${language} (test case ${i + 1}: ${statusDescription})`,
+                        error: `Input:\n${testcase.input}\n\n${detail}`
                     });
                 }
             }
@@ -169,11 +190,17 @@ const UpdateProblem =async (req, res) => {
                     message: "Failed to fetch Judge0 results"
                 });
             }
-            for (const test of testResults) {
-                if (test.status?.id !== 3 && test.status_id !== 3) {
+            for (let i = 0; i < testResults.length; i++) {
+                const test = testResults[i];
+                const statusId = test.status?.id ?? test.status_id;
+                if (statusId !== 3) {
+                    const testcase = allTestCases[i];
+                    const statusDescription = test.status?.description || describeJudge0Status(statusId);
+                    const detail = test.stderr || test.compile_output || test.message
+                        || `Expected output:\n${testcase.output}\n\nActual output:\n${test.stdout ?? "(no output)"}`;
                     return res.status(400).json({
-                        message: `Reference solution failed for ${language}`,
-                        error: test.stderr || test.compile_output || test.message
+                        message: `Reference solution failed for ${language} (test case ${i + 1}: ${statusDescription})`,
+                        error: `Input:\n${testcase.input}\n\n${detail}`
                     });
                 }
             }
