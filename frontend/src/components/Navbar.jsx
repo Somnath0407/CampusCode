@@ -44,21 +44,33 @@ const Navbar = () => {
                 {user && (
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-sm normal-case gap-2 pl-1.5 pr-3">
-                            <span className="avatar placeholder">
-                                <span className="bg-linear-to-br from-accent to-primary text-primary-content rounded-full w-7 h-7 grid place-items-center text-xs font-bold">
-                                    {initials || "U"}
+                            {user.avatar ? (
+                                <span className="avatar">
+                                    <span className="rounded-full w-7 h-7">
+                                        <img src={user.avatar} alt={user.firstName} referrerPolicy="no-referrer" />
+                                    </span>
                                 </span>
-                            </span>
+                            ) : (
+                                <span className="avatar placeholder">
+                                    <span className="bg-linear-to-br from-accent to-primary text-primary-content rounded-full w-7 h-7 grid place-items-center text-xs font-bold">
+                                        {initials || "U"}
+                                    </span>
+                                </span>
+                            )}
                             {user.firstName}
                         </div>
-                        <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-200 border border-base-300 rounded-box z-10 mt-3 w-48 p-2 shadow-xl">
-                            <li className="menu-title text-xs opacity-60 px-2">{user.email}</li>
-                            <li>
-                                <button onClick={handleLogout} className="text-error flex items-center gap-2">
-                                    <LogOut size={15} /> Logout
-                                </button>
-                            </li>
-                        </ul>
+                        <div tabIndex={0} className="dropdown-content flex flex-col gap-1 bg-base-200 border border-base-300 rounded-box z-10 mt-3 w-56 p-2 shadow-xl">
+                            <div className="flex items-center gap-2 px-3 py-2 text-xs text-base-content/60">
+                                <LogOut size={15} className="shrink-0 invisible" />
+                                <span className="truncate">{user.email}</span>
+                            </div>
+                            <button
+                                onClick={handleLogout}
+                                className="flex items-center gap-2 px-3 py-2 rounded-field text-error text-sm hover:bg-base-300"
+                            >
+                                <LogOut size={15} className="shrink-0" /> Logout
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
