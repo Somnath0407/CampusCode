@@ -59,17 +59,19 @@ const Navbar = () => {
                             )}
                             {user.firstName}
                         </div>
-                        <div tabIndex={0} className="dropdown-content flex flex-col gap-1 bg-base-200 border border-base-300 rounded-box z-10 mt-3 w-56 p-2 shadow-xl">
-                            <div className="flex items-center gap-2 px-3 py-2 text-xs text-base-content/60">
-                                <LogOut size={15} className="shrink-0 invisible" />
-                                <span className="truncate">{user.email}</span>
+                        <div tabIndex={0} className="dropdown-content bg-base-200 border border-base-300 rounded-box z-10 mt-3 w-56 p-2 shadow-xl">
+                            <div className="flex flex-col gap-1">
+                                <div className="flex items-center gap-2 px-3 py-2 text-xs text-base-content/60">
+                                    <LogOut size={15} className="shrink-0 invisible" />
+                                    <span className="truncate">{user.email}</span>
+                                </div>
+                                <button
+                                    onClick={handleLogout}
+                                    className="flex items-center gap-2 px-3 py-2 rounded-field text-error text-sm hover:bg-base-300"
+                                >
+                                    <LogOut size={15} className="shrink-0" /> Logout
+                                </button>
                             </div>
-                            <button
-                                onClick={handleLogout}
-                                className="flex items-center gap-2 px-3 py-2 rounded-field text-error text-sm hover:bg-base-300"
-                            >
-                                <LogOut size={15} className="shrink-0" /> Logout
-                            </button>
                         </div>
                     </div>
                 )}
